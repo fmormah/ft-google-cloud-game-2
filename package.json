@@ -44,7 +44,7 @@
     "@phntms/react-share": "^1.0.2-rc1",
     "classnames": "^2.5.1",
     "hls.js": "^1.5.0",
-    "mathsass": "0.10.1",
+    "mathsass": "0.11.0",
     "next": "16.4.3",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
