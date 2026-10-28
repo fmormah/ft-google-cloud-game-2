@@ -19,7 +19,8 @@ function button(page: Page, name: string) {
 }
 
 async function startGame(page: Page, isMobile: boolean) {
-  await page.getByRole("button", { name: "Enable sound" }).click();
+  // The loading intro advances automatically; its sound prompt can already be
+  // covered by Begin after a slow initial asset load. Wait for the active CTA.
   await button(page, "Begin").click();
   await button(page, "Continue").click();
   if (isMobile) {
@@ -48,7 +49,7 @@ test.beforeEach(async ({ page }) => {
 test("completes five scenarios, checks the annual report, and starts a clean new game", async ({ page, isMobile }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("./");
+  await page.goto("./", { waitUntil: "domcontentloaded" });
   await startGame(page, isMobile);
   for (const [index, scenario] of scenarios.entries()) {
     await test.step(`Scenario ${index + 1}: ${scenario.title}`, async () => {
@@ -77,7 +78,7 @@ test("completes five scenarios, checks the annual report, and starts a clean new
 });
 
 test("rewinds a wrong decision without awarding points for a second attempt", async ({ page, isMobile }) => {
-  await page.goto("./");
+  await page.goto("./", { waitUntil: "domcontentloaded" });
   await startGame(page, isMobile);
   await answer(page, scenarios[0].title, "Plan quarterly visits to your supplier", isMobile);
   await expect(page.getByRole("heading", { name: "Think again...", exact: true })).toBeVisible();
