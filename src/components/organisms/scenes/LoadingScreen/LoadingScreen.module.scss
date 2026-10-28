@@ -16,8 +16,7 @@
   }
 
   &.isCopyFading {
-    .content,
-    .irisLayer {
+    .content {
       animation: ls-fade-out 400ms ease forwards;
     }
   }
