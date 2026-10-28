@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import classNames from "classnames";
 import styles from "./SceneTransition.module.scss";
-
-const transitionTypes = ["fade_fast"];
 
 interface SceneTransitionProps {
   activeSceneKey: string;
@@ -15,100 +13,90 @@ interface Scene {
   node: React.ReactNode;
 }
 
+interface TransitionState {
+  scenes: Scene[];
+  fromId: number | null;
+  pending: Pick<Scene, "key" | "node"> | null;
+  nextId: number;
+}
+
 const SceneTransition: React.FC<SceneTransitionProps> = ({
   activeSceneKey,
   children,
 }) => {
-  // A scene can be re-entered while its old instance is still fading out.
-  // Unique entry IDs prevent React from restoring that instance's local state.
-  const nextSceneId = useRef(1);
-  const [scenes, setScenes] = useState<Scene[]>([
-    { id: 0, key: activeSceneKey, node: children },
-  ]);
-  const [transition, setTransition] = useState<{
-    type: string;
-    fromId: number;
-  } | null>(null);
-  const isTransitioning = useRef(false);
-  const [pendingKey, setPendingKey] = useState<string | null>(null);
+  const [state, setState] = useState<TransitionState>(() => ({
+    scenes: [{ id: 0, key: activeSceneKey, node: children }],
+    fromId: null,
+    pending: null,
+    nextId: 1,
+  }));
 
   useEffect(() => {
-    const top = scenes[scenes.length - 1];
-    if (!top) {
-      setScenes([
-        { id: nextSceneId.current++, key: activeSceneKey, node: children },
-      ]);
-      return;
-    }
-    if (activeSceneKey === top.key) {
-      return;
-    }
-
-    if (!isTransitioning.current) {
-      isTransitioning.current = true;
-      const randomTransition =
-        transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
-      setTransition({ type: randomTransition, fromId: top.id });
-      const nextScene = {
-        id: nextSceneId.current++,
-        key: activeSceneKey,
-        node: children,
+    setState((current) => {
+      const top = current.scenes[current.scenes.length - 1];
+      if (activeSceneKey === top.key) {
+        // A newer request can cancel a queued return to an earlier scene.
+        return current.pending ? { ...current, pending: null } : current;
+      }
+      if (current.fromId !== null) {
+        return { ...current, pending: { key: activeSceneKey, node: children } };
+      }
+      return {
+        scenes: [
+          top,
+          { id: current.nextId, key: activeSceneKey, node: children },
+        ],
+        fromId: top.id,
+        pending: null,
+        nextId: current.nextId + 1,
       };
-      setScenes((prev) => [...prev, nextScene]);
-    } else {
-      setPendingKey(activeSceneKey);
-    }
-  }, [activeSceneKey, children, scenes]);
+    });
+  }, [activeSceneKey, children]);
 
   const handleAnimationEnd = useCallback(
-    (event: React.AnimationEvent<HTMLDivElement>) => {
-      if (event.target !== event.currentTarget || !transition) return;
-
-      setScenes((prev) => prev.filter((s) => s.id !== transition.fromId));
-
-      if (pendingKey) {
-        const nextKey = pendingKey;
-        setPendingKey(null);
-        const nextScene = {
-          id: nextSceneId.current++,
-          key: nextKey,
-          node: children,
-        };
-        setScenes((prev) => {
-          const currentTop = prev[prev.length - 1];
-          const randomTransition =
-            transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
-          setTransition({ type: randomTransition, fromId: currentTop.id });
-          isTransitioning.current = true;
-          return [...prev, nextScene];
-        });
-        return;
-      }
-
-      setTransition(null);
-      isTransitioning.current = false;
+    (sceneId: number, event: React.AnimationEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) return;
+      // Retire the old scene and start any queued scene in one state update.
+      // Separate setters can replay a queued transition or reuse fading state.
+      setState((current) => {
+        const top = current.scenes[current.scenes.length - 1];
+        if (current.fromId === null || top.id !== sceneId) return current;
+        if (current.pending && current.pending.key !== top.key) {
+          return {
+            scenes: [top, { id: current.nextId, ...current.pending }],
+            fromId: top.id,
+            pending: null,
+            nextId: current.nextId + 1,
+          };
+        }
+        return { ...current, scenes: [top], fromId: null, pending: null };
+      });
     },
-    [transition, pendingKey, children],
+    [],
   );
 
   return (
     <div className={styles.transitionContainer} data-scene={activeSceneKey}>
-      {scenes.map((scene, index) => {
-        const isTop = index === scenes.length - 1;
-        const shouldAnimate = isTop && transition !== null;
-        const isLeaving = transition?.fromId === scene.id;
+      {state.scenes.map((scene, index) => {
+        const isTop = index === state.scenes.length - 1;
+        const shouldAnimate = isTop && state.fromId !== null;
+        const isLeaving = state.fromId === scene.id;
 
         return (
           <div
+            // Re-entering a scene always starts a fresh component instance.
             key={scene.id}
             className={classNames(styles.sceneWrapper, {
               [styles.sceneTop]: isTop,
-              [styles[transition?.type || ""]]: shouldAnimate,
+              [styles.fade_fast]: shouldAnimate,
               [styles.sceneLeaving]: isLeaving,
-              [styles.sceneLeavingFast]:
-                isLeaving && transition?.type === "fade_fast",
+              [styles.sceneLeavingFast]: isLeaving,
             })}
-            onAnimationEnd={shouldAnimate ? handleAnimationEnd : undefined}
+            onAnimationEnd={
+              shouldAnimate
+                ? (event) => handleAnimationEnd(scene.id, event)
+                : undefined
+            }
           >
             {scene.node}
           </div>

@@ -58,4 +58,20 @@ describe("SceneTransition", () => {
     expect(screen.queryByText("opening ready")).not.toBeInTheDocument();
     expect(screen.getByText("question ready")).toBeInTheDocument();
   });
+
+  it("cancels a queued return when the latest request keeps the incoming scene", () => {
+    const view = render(scene("answer"));
+    view.rerender(scene("question"));
+    view.rerender(scene("answer"));
+    view.rerender(scene("question"));
+    fireEvent.animationEnd(
+      view.container.querySelector(`.${styles.fade_fast}`)!,
+    );
+    expect(screen.queryByText("answer ready")).not.toBeInTheDocument();
+    expect(screen.getAllByText("question ready")).toHaveLength(1);
+    expect(
+      view.container.querySelectorAll(`.${styles.sceneWrapper}`),
+    ).toHaveLength(1);
+    expect(view.container.querySelector(`.${styles.fade_fast}`)).toBeNull();
+  });
 });
