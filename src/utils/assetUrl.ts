@@ -45,6 +45,18 @@ export function assetUrl(value: string): string {
     return value;
   }
 
+  // The archive omits the large scenario library. It can use the original media
+  // bucket independently of the local images, audio, and opening videos.
+  const projectPath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const publicPath = projectPath && value.startsWith(`${projectPath}/`)
+    ? value.slice(projectPath.length)
+    : value.startsWith("/") ? value : `/${value}`;
+  const scenarioBase = (process.env.NEXT_PUBLIC_SCENARIO_ASSET_BASE_URL ?? "")
+    .replace(/\/$/, "");
+  if (scenarioBase && publicPath.startsWith("/assets/video/scene_videos/character_")) {
+    return `${scenarioBase}${publicPath}`;
+  }
+
   const base = getAssetBaseUrl();
   if (!base) return value;
   // Exported literals may already include the Pages prefix; dynamic paths do not.

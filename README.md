@@ -9,12 +9,12 @@ Pushes to `main` build and deploy automatically through `.github/workflows/pages
 To reproduce the hosted build locally:
 
 ```sh
-GITHUB_PAGES=true NEXT_PUBLIC_PORTFOLIO_DEMO=true NEXT_PUBLIC_BASE_PATH=/ft-google-cloud-game-2 NEXT_PUBLIC_URL=https://fmormah.github.io/ft-google-cloud-game-2 npm run build:pages
+GITHUB_PAGES=true NEXT_PUBLIC_PORTFOLIO_DEMO=true NEXT_PUBLIC_BASE_PATH=/ft-google-cloud-game-2 NEXT_PUBLIC_URL=https://fmormah.github.io/ft-google-cloud-game-2 NEXT_PUBLIC_SCENARIO_ASSET_BASE_URL=https://storage.googleapis.com/ft-cloud-game-2 npm run build:pages
 ```
 
 `out/` is the deployable static site. The post-build script scopes public media URLs to the repository path, including CSS, browser bundles, and exported pages. Campaign analytics are disabled in portfolio mode.
 
-The supplied audio/video assets are included in this repository so Pages can serve them without a separate bucket. The icon routes are rendered at build time.
+The supplied audio/video assets and ten restored opening/trophy videos are included in this repository. The archive omitted 140 character scenario video variants (about 1.28 GB); the hosted demo streams those from the project's existing public bucket through `NEXT_PUBLIC_SCENARIO_ASSET_BASE_URL`. All 140 URLs were checked successfully. Keep that bucket available, or mirror it and change this setting. The icon routes are rendered at build time.
 
 ## Original project notes
 
