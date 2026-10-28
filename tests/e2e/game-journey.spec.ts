@@ -67,10 +67,10 @@ async function expectOutcome(page: Page, title: string, score: number) {
   ).toBeVisible();
   // Playwright visibility alone accepts opacity: 0. Assert that the result UI
   // actually finishes fading in, including after a rapid rewind/re-answer.
-  await expect(page.locator('[class*="PostAction_uiLayer"]')).toHaveCSS(
-    "opacity",
-    "1",
-  );
+  const outcome = page.locator('[class*="PostAction_uiLayer"]').filter({
+    has: page.getByRole("heading", { name: title, exact: true }),
+  });
+  await expect(outcome).toHaveCSS("opacity", "1");
   await expect(page.getByText(`SCC ${score}`, { exact: true })).toBeVisible();
 }
 
