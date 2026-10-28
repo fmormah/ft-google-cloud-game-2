@@ -40,7 +40,6 @@
     "@financial-times/sass-mq": "^5.2.4",
     "@phantomstudios/css-components": "^0.4.0",
     "@phantomstudios/ft-react-components": "^0.3.3",
-    "@phntms/next-gtm": "^0.3.0",
     "@phntms/react-share": "^1.0.2-rc1",
     "classnames": "^2.5.1",
     "hls.js": "^1.5.0",

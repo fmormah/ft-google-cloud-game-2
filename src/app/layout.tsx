@@ -8,10 +8,8 @@ import DevVersionLog from "@/components/DevVersionLog";
 import Headers from "@/components/RootBody/Headers";
 import Footer from "@/components/RootBody/Footer";
 import { TrackingPixel } from "@phantomstudios/ft-react-components";
-import { TrackingHeadScript } from "@phntms/next-gtm";
 import { FONT_VARIABLES } from "@/theme/fonts";
 import {
-  GTM_ID,
   PERMUTIVE_PROJECT_ID,
   PERMUTIVE_PUBLIC_API_KEY,
   SITE_URL,
@@ -136,7 +134,6 @@ export default function RootLayout({ children }: Props) {
       }
     >
       <head>
-        {process.env.NEXT_PUBLIC_PORTFOLIO_DEMO !== "true" && <TrackingHeadScript id={GTM_ID} isGTM={true} />}
         {process.env.NEXT_PUBLIC_PORTFOLIO_DEMO !== "true" && <PermutiveSetup
           projectID={PERMUTIVE_PROJECT_ID}
           publicAPIKey={PERMUTIVE_PUBLIC_API_KEY}

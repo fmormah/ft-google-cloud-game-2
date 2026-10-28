@@ -1,4 +1,3 @@
-export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WQL2WRZT";
 export const PERMUTIVE_PROJECT_ID = process.env.PERMUTIVE_PROJECT_ID || "";
 export const PERMUTIVE_PUBLIC_API_KEY =
   process.env.PERMUTIVE_PUBLIC_API_KEY || "";

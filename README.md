@@ -176,7 +176,6 @@ This project is configured for deployment on Vercel:
 2. Deploy via [Vercel web UI](https://vercel.com/new) or CLI
 3. Set environment variables:
    - `NEXT_PUBLIC_URL` - The final production URL (https:/transformingbusiness.ft.com)
-   - `NEXT_PUBLIC_GTM_ID` - Google Tag Manager container ID
    - `PERMUTIVE_PROJECT_ID` - Permutive project ID for audience analytics
    - `PERMUTIVE_PUBLIC_API_KEY` - Permutive public API key
 
