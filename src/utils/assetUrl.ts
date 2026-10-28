@@ -53,7 +53,7 @@ export function assetUrl(value: string): string {
     : value.startsWith("/") ? value : `/${value}`;
   const scenarioBase = (process.env.NEXT_PUBLIC_SCENARIO_ASSET_BASE_URL ?? "")
     .replace(/\/$/, "");
-  if (scenarioBase && publicPath.startsWith("/assets/video/scene_videos/character_")) {
+  if (scenarioBase && /^\/assets\/video\/scene_videos\/character_/.test(publicPath)) {
     return `${scenarioBase}${publicPath}`;
   }
 
