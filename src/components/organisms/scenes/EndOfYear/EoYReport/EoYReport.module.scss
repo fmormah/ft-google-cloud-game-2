@@ -1,0 +1,283 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.EoYReport {
+  margin: 85px auto 0;
+  max-width: 1024px;
+  padding: $space-4;
+  position: relative;
+  width: 100%;
+
+  @include down(lg) {
+    margin: 45px auto 0;
+  }
+}
+
+.backgroundVideoLayer {
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: 0;
+}
+
+.backgroundVideo {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.backgroundScrim {
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 35%) 0%,
+    rgb(0 0 0 / 65%) 100%
+  );
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+
+.engineNotice {
+  margin-bottom: $space-4;
+}
+
+.grid {
+  display: grid;
+  gap: $space-4;
+  grid-template-columns: 1fr;
+
+  @include up(lg) {
+    align-items: stretch;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.leftCol {
+  min-width: 0;
+
+  @include up(lg) {
+    min-height: 640px;
+  }
+}
+
+.holo {
+  height: 100%;
+  width: 100%;
+}
+
+@include down(lg) {
+  .holo {
+    height: 360px;
+  }
+}
+
+.rightCol {
+  display: grid;
+  gap: $space-4;
+  min-width: 0;
+}
+
+.infoBox {
+  margin: 0;
+}
+
+.infoTitle {
+  font-family: $font-family-sans;
+  font-weight: $font-weight-regular;
+  margin: 0 0 $space-2;
+}
+
+.infoBody {
+  font-family: $font-family-sans;
+  font-weight: $font-weight-light;
+  margin: 0;
+}
+
+.panelStack {
+  display: grid;
+  gap: 0;
+}
+
+.stockCard {
+  background: transparent;
+  padding: $space-4;
+}
+
+.stockHeader {
+  align-items: end;
+  display: grid;
+  gap: $space-4;
+  grid-template-columns: 1fr auto;
+  padding-top: $space-6;
+}
+
+.stockTitleBlock {
+  display: grid;
+  gap: 2px;
+}
+
+.stockTicker {
+  color: rgb(255 255 255 / 60%);
+  font-family: $font-family-sans;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.stockName {
+  color: #fff;
+  font-family: $font-family-sans;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stockScore {
+  color: #fff;
+  font-family: $font-family-sans;
+  font-size: 64px;
+  font-weight: $font-weight-regular;
+  line-height: 1;
+}
+
+.rule {
+  border-top: 1px solid rgb(255 255 255 / 30%);
+  margin: $space-4 0;
+}
+
+.gainLossRow {
+  display: grid;
+  gap: $space-6;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: $space-6;
+}
+
+.gainLossBlock {
+  align-items: center;
+  display: grid;
+  gap: $space-3;
+  grid-template-columns: auto 1fr;
+}
+
+.gainLossIconBox {
+  align-items: center;
+  animation: eoy-gainloss-icon-in 420ms cubic-bezier(0, 0, 0.2, 1) 200ms
+    forwards;
+  border: $border-thin solid rgb(255 255 255 / 50%);
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+
+  // Animate into view on load (gain from bottom, loss from top)
+  opacity: 0;
+  transform: translateY(var(--eoy-gainloss-enter-y, 0));
+  width: 40px;
+  will-change: transform, opacity;
+}
+
+.gainLossIconBoxPositive {
+  color: #a6ff52;
+
+  --eoy-gainloss-enter-y: 14px;
+}
+
+.gainLossIconBoxNegative {
+  color: #ff5a5a;
+
+  --eoy-gainloss-enter-y: -14px;
+}
+
+.gainLossText {
+  display: grid;
+  gap: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gainLossIconBox {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes eoy-gainloss-icon-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gainLossLabel {
+  color: rgb(255 255 255 / 60%);
+  font-family: $font-family-sans;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gainLossValue {
+  color: #fff;
+  font-family: $font-family-sans;
+  font-size: 14px;
+}
+
+.linkButtons {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+
+  @include up(sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.linkButton {
+  // Darker / more opaque to match reference
+  backdrop-filter: blur(18px);
+  background:
+    linear-gradient(0deg, rgb(0, 0, 0, 35%) 0%, rgb(0, 0, 0, 35%) 100%),
+    rgb(255, 255, 255, 10%);
+  justify-content: center;
+  text-align: center;
+
+  &:hover {
+    background: #fff;
+  }
+}
+
+.playAgainButton {
+  // CTA variant per reference: bright green bar
+  background: #a6ff52;
+  color: #111;
+
+  [class*="DirectionalButton__line"] {
+    background-color: rgb(0 0 0 / 40%);
+  }
+
+  [class*="DirectionalButton__icon"] img {
+    filter: invert(1);
+  }
+
+  &:hover:not(:disabled) {
+    @media (hover: hover) {
+      background: #d5ff8b;
+      color: #111;
+
+      [class*="DirectionalButton__icon"] img {
+        filter: invert(1);
+      }
+
+      [class*="DirectionalButton__line"] {
+        background-color: rgb(0 0 0 / 50%);
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+@use "@/theme/styles/breakpoints" as *;
+
+.LoadingScreen {
+  background: transparent;
+  display: grid;
+  inset: 0;
+  overflow: hidden;
+  place-items: center;
+  position: absolute;
+
+  &.isFading {
+    .content,
+    .irisLayer {
+      animation: ls-fade-out 400ms ease forwards;
+    }
+  }
+
+  &.isCopyFading {
+    .content {
+      animation: ls-fade-out 400ms ease forwards;
+    }
+  }
+}
+
+.glassLayer {
+  inset: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.content {
+  align-items: center;
+  animation:
+    ls-fade-bounce 500ms ease-out 2s forwards,
+    ls-scale-bounce 2400ms ease-in-out 2.5s infinite;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  gap: 0;
+  justify-content: center;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.barWrapper {
+  width: 240px;
+}
+
+.message {
+  font-size: 12px;
+}
+
+.irisLayer {
+  animation:
+    ls-fade-bounce 500ms ease-out 2s forwards,
+    ls-scale-bounce 2400ms ease-in-out 2.5s infinite;
+  display: grid;
+  inset: 0;
+  opacity: 0;
+  place-items: center;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.irisPrimary,
+.irisSecondary {
+  display: none;
+  place-items: center;
+  position: absolute;
+}
+
+.irisPrimary > * {
+  height: min(700px, max(590px, 50vw));
+  width: min(700px, max(590px, 50vw));
+
+  @include down(lg) {
+    height: calc(min(700px, max(590px, 50vw)) - 182px);
+    width: calc(min(700px, max(590px, 50vw)) - 182px);
+  }
+}
+
+.irisSecondary > * {
+  height: calc(min(700px, max(590px, 50vw)) + 20px);
+  width: calc(min(700px, max(590px, 50vw)) + 20px);
+
+  @include down(lg) {
+    height: calc(min(700px, max(590px, 50vw)) - 62px);
+    width: calc(min(700px, max(590px, 50vw)) - 62px);
+  }
+}
+
+@keyframes ls-fade-bounce {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ls-scale-bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes ls-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}

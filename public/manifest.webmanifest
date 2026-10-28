@@ -1,0 +1,10 @@
+{
+  "name": "Transforming Business",
+  "short_name": "Transforming",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": []
+}

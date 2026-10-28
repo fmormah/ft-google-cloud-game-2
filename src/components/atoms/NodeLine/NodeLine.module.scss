@@ -1,0 +1,129 @@
+.NodeLine {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.square {
+  background-color: var(--nl-color, white);
+  height: 6px;
+  left: var(--nl-square-left, 0);
+  position: absolute;
+  top: var(--nl-square-top, 0);
+  transform: scale(0);
+  transform-origin: center center;
+  width: 5px;
+}
+
+.line-group {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: rotate(var(--line1-angle)) translateY(-0.5px);
+  transform-origin: left center;
+}
+
+.line1 {
+  background-color: var(--nl-color, white);
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: right center;
+  width: var(--line1-length);
+}
+
+.label {
+  align-items: center;
+  backdrop-filter: blur(7px);
+  background: rgb(255 255 255 / 1%);
+  border-radius: 1000px;
+  color: var(--nl-color, white);
+  display: inline-flex;
+  gap: 10px;
+  justify-content: center;
+  left: var(--line1-length);
+  opacity: 0;
+  overflow: hidden;
+  padding: 8px 20px;
+  position: absolute;
+  top: 0;
+  transform: translate(-50%, -50%) rotate(var(--label-angle, 0deg));
+  white-space: nowrap;
+
+  .labelText {
+    position: relative;
+    z-index: 2;
+  }
+
+  .labelGlass {
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+  }
+}
+
+.line2-container {
+  left: var(--line1-length);
+  position: absolute;
+  top: 0;
+  transform: rotate(var(--line2-angle));
+  transform-origin: left center;
+}
+
+.line2 {
+  background-color: var(--nl-color, white);
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: right center;
+  width: var(--line2-length);
+}
+
+.NodeLine.animate .square {
+  animation: scale-up var(--animation-duration) ease-out
+    calc(var(--animation-duration) * 3) forwards;
+}
+
+.NodeLine.animate .line1 {
+  animation: grow-line var(--animation-duration) ease-out
+    var(--animation-duration) forwards;
+}
+
+.NodeLine.animate .label {
+  animation: fade-in var(--animation-duration) ease-out
+    calc(var(--animation-duration) * 2) forwards;
+}
+
+.NodeLine.animate .line2 {
+  animation: grow-line var(--animation-duration) ease-out forwards;
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes grow-line {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,6 @@
+$system-code: "build-service" !default;
+$o-brand: "core";
+
+@import "@financial-times/o-normalise/main";
+// Use local FT partner app override for header/footer/cookie styles
+@import "./ft-partner-app";

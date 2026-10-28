@@ -1,0 +1,110 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.OpeningScene {
+  height: 100%;
+  inset: 0;
+  position: relative;
+  width: 100%;
+
+  .videoLayer {
+    inset: 0;
+    position: absolute;
+    z-index: 0;
+  }
+
+  .glassLayer {
+    inset: 0;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .splashWrap {
+    height: 100%;
+    position: relative;
+    transition: opacity $duration-normal ease;
+    width: 100%;
+    z-index: 2;
+  }
+
+  .overlayDesktop {
+    background: transparent;
+    border: 0;
+    display: none;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 3;
+  }
+
+  .splashFade {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ctaMobile {
+    bottom: 0;
+    display: grid;
+    left: 0;
+    place-items: center;
+    position: absolute;
+    right: 0;
+    z-index: 3;
+  }
+
+  @include up(lg) {
+    .ctaMobile {
+      display: none;
+    }
+
+    .overlayDesktop {
+      display: block;
+    }
+  }
+}
+
+.labelBlur {
+  backdrop-filter: blur(10px);
+  border: 1px solid white;
+  border-radius: 1000px;
+  color: var(--nl-color, white);
+  justify-content: center;
+  left: 50%;
+  opacity: 0;
+  overflow: hidden;
+  padding: 8px 20px;
+  position: absolute;
+  text-align: center;
+  top: 121px;
+  transform: translateX(-50%);
+  transition: opacity $duration-normal ease;
+  white-space: nowrap;
+  z-index: 3;
+
+  .labelBlurText {
+    position: relative;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .labelBlurGlass {
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+  }
+
+  @include down(lg) {
+    font-size: 12px;
+  }
+}
+
+.labelBlurVisible {
+  opacity: 1;
+}
+
+.labelBlurFadeOut {
+  opacity: 0;
+}

@@ -1,0 +1,39 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.Iris {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  --iris-speed: 10s;
+
+  &__svg {
+    animation: iris-spin var(--iris-speed) linear infinite;
+    display: block;
+    height: 100%;
+    transform-origin: center;
+    width: 100%;
+  }
+
+  &--ccw {
+    .Iris__svg {
+      animation-direction: reverse;
+    }
+  }
+
+  &__ring {
+    transition:
+      stroke-dasharray 200ms linear,
+      stroke-width 200ms linear,
+      stroke 200ms linear;
+  }
+}
+
+@keyframes iris-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

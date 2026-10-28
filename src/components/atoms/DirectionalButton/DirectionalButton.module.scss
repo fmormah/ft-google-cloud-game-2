@@ -1,0 +1,80 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.DirectionalButton {
+  align-items: center;
+  color: $color-primary-contrast;
+  display: inline-flex;
+  font-family: $font-family-condensed;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  gap: $space-4;
+  line-height: 120%;
+  padding: $space-4 $space-7;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+  width: 282px;
+
+  @include glass-surface(0.35, 0.2, 37.5px);
+
+  &__label {
+    flex: 0 0 auto;
+  }
+
+  &__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+
+    img {
+      height: 6px;
+      width: $space-7;
+    }
+  }
+
+  &__line {
+    background-color: rgb(255, 255, 255, 65%);
+    flex: 1 1 auto;
+    height: 1px;
+    position: relative;
+  }
+
+  &--left {
+    justify-content: flex-start;
+  }
+
+  &--right {
+    justify-content: flex-end;
+
+    .DirectionalButton__icon img {
+      transform: scaleX(-1);
+    }
+  }
+
+  &--full {
+    width: 100%;
+  }
+
+  &:hover:not(:disabled) {
+    @media (hover: hover) {
+      background: #fff;
+      color: $color-text;
+
+      .DirectionalButton__icon img {
+        filter: invert(1);
+      }
+
+      .DirectionalButton__line {
+        background-color: #242424;
+      }
+    }
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}

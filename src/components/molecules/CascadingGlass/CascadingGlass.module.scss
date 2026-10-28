@@ -1,0 +1,121 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.CascadingGlass {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(var(--grid-cols, 8), 1fr);
+  height: 100%;
+  overflow: hidden;
+  perspective: 1200px;
+  position: relative;
+  width: 100%;
+}
+
+.tile {
+  background: transparent;
+
+  // opacity: 0.9;
+}
+
+.tile-inner {
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition-property: transform;
+  width: 100%;
+}
+
+.tile-front,
+.tile-back {
+  backdrop-filter: blur(150px);
+  backface-visibility: hidden;
+  background: rgb(255, 255, 255, 20%);
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+
+.tile-back {
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+
+.tile-inner.flipped-horizontal {
+  transform: rotateY(270deg);
+}
+
+.tile-inner.flipped-vertical {
+  transform: rotateX(270deg);
+}
+
+.tile-inner.flipped-diagonal {
+  transform: rotate3d(1, 1, 0, 270deg);
+}
+
+.tile-inner.flipped-combo {
+  transform: rotateX(270deg) rotateY(270deg);
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+
+  15% {
+    transform: translateX(-5%) rotate(-5deg) scale(1.1);
+  }
+
+  30% {
+    transform: translateX(5%) rotate(3deg) scale(1.1);
+  }
+
+  45% {
+    transform: translateX(-3%) rotate(-3deg) scale(1.1);
+  }
+
+  60% {
+    transform: translateX(2%) rotate(2deg) scale(1.1);
+  }
+
+  75% {
+    transform: translateX(-1%) rotate(-1deg) scale(1.1);
+  }
+}
+
+.tile.is-wobbling {
+  animation: wobble 800ms ease-in-out;
+  z-index: 10;
+}
+
+.sheen {
+  animation: sheen-effect var(--sheen-duration, 800ms) ease-in-out;
+  background: linear-gradient(
+    to right,
+    rgb(255, 255, 255, 0%) 0%,
+    rgb(255, 255, 255, var(--sheen-opacity, 0.25)) 50%,
+    rgb(255, 255, 255, 0%) 100%
+  );
+  filter: blur(var(--sheen-blur, 5px));
+  height: 100%;
+  left: -150%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transform: skewX(-25deg);
+  width: var(--sheen-width, 50%);
+  z-index: 5;
+}
+
+@keyframes sheen-effect {
+  from {
+    left: -150%;
+  }
+
+  to {
+    left: 150%;
+  }
+}

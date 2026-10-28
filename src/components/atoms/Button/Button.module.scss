@@ -1,0 +1,126 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.Button {
+  align-items: center;
+  @include glass-button-surface();
+  color: $color-primary-contrast;
+  display: inline-flex;
+  font-family: $font-family-condensed;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  gap: $space-1;
+  line-height: 120%;
+  padding: $space-4;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    transform 120ms ease;
+
+  &:hover {
+    backdrop-filter: blur(0);
+    background: #fff;
+    border-color: #fff;
+    color: $color-text;
+  }
+
+  &.is-selected {
+    backdrop-filter: blur(0);
+    background: #fff;
+    border-color: #fff;
+    color: $color-text;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+
+  &--icon-only {
+    padding: 16px;
+  }
+
+  &--no-icon {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  &__icon {
+    display: inline-flex;
+    height: 24px;
+    position: relative;
+    top: 2px;
+    width: 24px;
+  }
+
+  &__label {
+    display: inline-block;
+    position: relative;
+  }
+
+  &__label-text {
+    display: inline-block;
+  }
+}
+
+.Button__corners {
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.Button--corners-all::before,
+.Button--corners-all::after,
+.Button--corners-all .Button__corners::before,
+.Button--corners-all .Button__corners::after,
+.Button--corners-top::before,
+.Button--corners-top::after,
+.Button--corners-bottom .Button__corners::before,
+.Button--corners-bottom .Button__corners::after {
+  background-color: white;
+  content: "";
+  height: 5px;
+  position: absolute;
+  width: 5px;
+  z-index: 1;
+}
+
+.Button--corners-all::before,
+.Button--corners-top::before {
+  left: 0;
+  top: 0;
+}
+
+.Button--corners-all::after,
+.Button--corners-top::after {
+  right: 0;
+  top: 0;
+}
+
+.Button--corners-all .Button__corners::before,
+.Button--corners-bottom .Button__corners::before {
+  bottom: 0;
+  left: 0;
+}
+
+.Button--corners-all .Button__corners::after,
+.Button--corners-bottom .Button__corners::after {
+  bottom: 0;
+  right: 0;
+}

@@ -1,0 +1,182 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.QuestionSceneShell {
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.videoLayer {
+  height: 100%;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+.video {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.uiLayer {
+  display: flex;
+  flex-direction: column;
+  inset: 0;
+  justify-content: flex-end;
+  padding: $space-4;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.2s ease-out;
+
+  &.isFadingOut {
+    opacity: 0;
+  }
+}
+
+.viewA,
+.viewB {
+  margin: 0 auto;
+  max-width: 938px;
+  pointer-events: auto;
+  width: 100%;
+}
+
+.viewA {
+  display: flex;
+  flex-direction: column;
+
+  .infoCard {
+    margin-bottom: 16px;
+  }
+
+  .viewA__child {
+    transform: translateY(1rem);
+    transition:
+      opacity 0.3s ease-out,
+      transform 0.3s ease-out;
+  }
+
+  &.isMounted {
+    .viewA__child {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Default: show ViewA, hide ViewB
+.viewB {
+  display: none;
+
+  .ctaRow {
+    bottom: -16px;
+    left: -16px;
+    margin-top: 0;
+    position: relative;
+    width: calc(100% + 32px);
+  }
+}
+
+.viewBBackButton {
+  flex: 0 0 auto;
+  justify-content: center;
+  max-width: 150px;
+}
+
+// Show ViewB on mobile-only; ViewA on desktop-only per custom breakpoints
+@include down(lg) {
+  .viewA {
+    display: none;
+  }
+
+  .viewB {
+    display: block;
+  }
+}
+
+@include up(lg) {
+  .viewB {
+    display: none;
+  }
+}
+
+.infoCard {
+  font-family: $font-family-sans;
+}
+
+.infoTitle {
+  font-family: $font-family-sans;
+  font-weight: $font-weight-regular;
+  margin: 0 0 6px;
+}
+
+.infoBody {
+  margin: 0;
+}
+
+.actionsRow {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+
+  &.buttonsVisible {
+    .staggeredBtn {
+      animation: button-reveal 0.6s ease-out forwards;
+    }
+  }
+}
+
+.actionBtn {
+  border-radius: 0;
+  flex: 1 1 0;
+  justify-content: center;
+  min-width: 0;
+
+  &:not(:first-child) {
+    border-left: none;
+  }
+}
+
+.staggeredBtn {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+@keyframes button-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ctaRow {
+  display: flex;
+  margin-top: $space-3;
+
+  > * {
+    flex: 1 1 0;
+  }
+}
+
+.actionsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  .optionBtn {
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+    animation-name: subtle-slide-fade-in-kf;
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+}

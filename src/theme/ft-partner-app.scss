@@ -1,0 +1,361 @@
+@use "@phantomstudios/ft-react-components/src/components/ft/styles/_tokens" as
+  tokens;
+
+$o-brand: "master";
+
+/*
+|-------------------------------------------------------------------------------
+| o-header
+|-------------------------------------------------------------------------------
+*/
+@import "@financial-times/o-header/main";
+
+// https://registry.origami.ft.com/components/o-header@8.5.3/sassdoc?brand=master
+@include oHeader;
+
+[data-o-header-drawer--no-js] {
+  display: none;
+}
+
+/*
+|-------------------------------------------------------------------------------
+| o-footer
+|-------------------------------------------------------------------------------
+*/
+
+@import "@financial-times/o-footer/main";
+@include oFooter(
+  $opts: (
+    "themes": (
+      "dark",
+    ),
+  )
+);
+
+.o-footer {
+  margin-top: 0;
+}
+
+// * o-footer v10 update overrides */
+
+// Fix missing oGridGutter mixin (larger media rules work)
+.o-footer__container {
+  font-family: MetricWeb, sans-serif !important;
+  font-size: 16px !important;
+
+  @media (width <= 46.25em) {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+// Force footer base 16px an em instead of site rem
+.o-footer__legal-links li {
+  font-size: 0.75em;
+  line-height: 1em;
+}
+
+// * end o-footer v10 overrides */
+
+/*
+|-------------------------------------------------------------------------------
+| o-cookie-message
+|-------------------------------------------------------------------------------
+*/
+
+/** FTPartnerContent module.scss **/
+.subbrandContainer {
+  background-color: tokens.$token-c-header-subbrand-bg;
+  border-bottom: solid 5px tokens.$token-c-header-subbrand-border;
+  color: tokens.$token-c-black;
+  font-family: MetricWeb, sans-serif;
+  font-size: tokens.$token-base-size;
+  height: 61px;
+  pointer-events: auto;
+  position: relative;
+  right: 0;
+  top: 0;
+  z-index: 99; // stack over the FT footer menu on mobile
+
+  @supports (position: sticky) {
+    position: sticky;
+  }
+
+  @include tokens.tablet {
+    height: 41px;
+    padding-top: 0;
+  }
+
+  /** moved to inside subrandContaner **/
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .tabletHidden {
+    @include tokens.tablet {
+      display: none;
+    }
+  }
+
+  .mobileHidden {
+    display: none;
+
+    @include tokens.tablet {
+      display: block;
+    }
+  }
+
+  .hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .shown {
+    bottom: unset;
+    opacity: 1;
+    pointer-events: auto;
+    top: 0;
+  }
+}
+
+.subbrandContent {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  z-index: 101;
+
+  @include tokens.tablet {
+    max-width: 1220px;
+  }
+}
+
+.subbrandTitleContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+
+  @include tokens.tablet {
+    margin: 0 auto;
+  }
+}
+
+.subbrandTitle {
+  align-items: center;
+  color: tokens.$token-c-header-subbrand-title;
+  display: flex;
+  font-size: 1.25em;
+}
+
+.subbrandTitleTooltip {
+  cursor: pointer;
+  height: 17px;
+  margin-left: 10px;
+  width: 17px;
+}
+
+.subbrandLink {
+  color: tokens.$token-c-header-subbrand-items;
+  display: block;
+  font-size: 1em;
+  font-weight: 600;
+
+  @include tokens.tablet {
+    display: none;
+  }
+}
+
+.subbrandTooltip {
+  cursor: pointer;
+  height: 1.5625em;
+  width: 1.5625em;
+}
+
+.subbrandAffiliateWrapper {
+  color: tokens.$token-c-header-subbrand-items;
+  display: none;
+  font-size: 1.25em;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  @include tokens.tablet {
+    display: block;
+    white-space: nowrap;
+    width: 25%;
+  }
+}
+
+.subbrandShare {
+  align-items: center;
+  display: flex;
+
+  @include tokens.tablet {
+    justify-content: flex-end;
+    width: 25%;
+  }
+}
+
+.subbrandShareIcon {
+  cursor: pointer;
+  height: 27px;
+  padding: 0 0 0.25em 0.5em;
+  width: 25px;
+}
+
+.subbrandShareLink {
+  color: tokens.$token-c-header-subbrand-items;
+  font-size: 1em;
+  pointer-events: none;
+  text-decoration: none;
+
+  @include tokens.desktop {
+    padding-right: 2px;
+  }
+}
+
+.subbrandDisclaimer {
+  background: #fff;
+  box-shadow:
+    0 1px 4px rgb(77, 72, 69, 15%),
+    0 8px 14px rgb(77, 72, 69, 20%);
+  line-height: 1.1;
+  margin: 0 auto;
+  margin-top: 5px;
+  max-width: 20.3125em;
+  padding: 0.625em 1em;
+  position: relative;
+  text-align: center;
+  transition: opacity 0.4s ease;
+  width: 100vw;
+
+  @include tokens.tablet {
+    margin-top: 0.9375em;
+    max-width: 100%;
+    padding: 1em 1.5625em;
+    width: 50em;
+  }
+}
+
+.subbrandDisclaimerLink {
+  color: initial;
+  text-decoration: underline;
+
+  &:active {
+    color: initial;
+  }
+}
+
+.subbrandDisclaimerCloseIcon {
+  cursor: pointer;
+  height: 10px;
+  position: absolute;
+  right: 0.3125em;
+  top: 5px;
+  width: 10px;
+
+  @include tokens.desktop {
+    top: 10px;
+  }
+}
+
+.subbrandShareContainer {
+  align-items: center;
+  background: #fff;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  left: 0;
+  overflow: scroll;
+  padding-bottom: 75px;
+  position: fixed;
+  transition: opacity 0.4s ease;
+  width: 100%;
+
+  @include tokens.desktop {
+    box-shadow:
+      0 1px 4px rgb(77, 72, 69, 15%),
+      0 8px 14px rgb(77, 72, 69, 20%);
+    height: auto;
+    inset: 42px 130px auto auto;
+    overflow: unset;
+    padding: 1em 1.25em 0;
+    position: absolute;
+    width: auto;
+  }
+}
+
+.shareContainerCloseIcon {
+  cursor: pointer;
+  height: 25px;
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  width: 25px;
+
+  @include tokens.desktop {
+    height: 15px;
+    width: 15px;
+  }
+}
+
+.shareIconsContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+
+  @include tokens.desktop {
+    flex-direction: row;
+  }
+}
+
+.socialShareIcon {
+  cursor: pointer;
+  height: 9vh;
+  width: 9vh;
+
+  @include tokens.desktop {
+    height: 2.5em;
+    margin: 0.9375em;
+    width: 2.5em;
+  }
+}
+
+.socialShareText {
+  color: tokens.$token-c-header-subbrand-items;
+  display: none;
+  font-size: 0.9em;
+
+  @include tokens.desktop {
+    padding-top: 0.5rem;
+  }
+}
+
+.shareTitle {
+  color: tokens.$token-c-header-subbrand-items;
+  font-size: 2em;
+  font-weight: 500;
+
+  @include tokens.tablet {
+    font-size: 1.25em;
+  }
+}
+
+/** ShareButton module.scss **/
+.socialShareIconContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+
+

@@ -1,0 +1,289 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+// Strong deceleration easing (slows down toward the end)
+$ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+
+.InfoCard {
+  color: $color-primary-contrast;
+  font-family: $font-family-sans;
+  overflow: hidden;
+  padding: $space-7;
+  position: relative;
+
+  @include glass-surface(0.35, 0.2, 37.5px);
+
+  p {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  &--positive {
+    // green-tinted glass per request
+    backdrop-filter: blur(38px);
+    background:
+      linear-gradient(
+        0deg,
+        rgb(213, 255, 92, 40%) 0%,
+        rgb(213, 255, 92, 40%) 100%
+      ),
+      rgb(0, 0, 0, 40%);
+  }
+
+  &--negative {
+    // red-tinted glass per request
+    backdrop-filter: blur(38px);
+    background:
+      linear-gradient(
+        0deg,
+        rgb(217, 47, 47, 30%) 0%,
+        rgb(217, 47, 47, 30%) 100%
+      ),
+      rgb(0, 0, 0, 10%);
+  }
+
+  &--intro {
+    animation:
+      infocard-peek 150ms $ease-decelerate 0.75s forwards,
+      infocard-reveal 450ms $ease-decelerate 1.5s forwards;
+    max-height: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  &--reverse {
+    animation: infocard-reverse 400ms $ease-decelerate forwards;
+    max-height: 1000px;
+    overflow: hidden;
+    padding-bottom: $space-7;
+    padding-top: $space-7;
+  }
+
+  &__content {
+    font-family: $font-family-sans;
+    position: relative;
+
+    p:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  &__corner {
+    background: $color-primary-contrast;
+    height: $size-corner-square;
+    position: absolute;
+    width: $size-corner-square;
+
+    &--tl {
+      left: 0;
+      top: 0;
+    }
+
+    &--tr {
+      right: 0;
+      top: 0;
+    }
+
+    &--br {
+      bottom: 0;
+      right: 0;
+    }
+
+    &--bl {
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  @include down(lg) {
+    padding: $space-4;
+
+    &--intro {
+      animation:
+        infocard-peek 150ms $ease-decelerate 0.75s forwards,
+        infocard-reveal-sm 450ms $ease-decelerate 1.5s forwards;
+
+      // same timings, smaller final padding for small screens
+      max-height: 0;
+      overflow: hidden;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    &--reverse {
+      animation: infocard-reverse-sm 400ms $ease-decelerate forwards;
+      max-height: 1000px;
+      overflow: hidden;
+      padding-bottom: $space-4;
+      padding-top: $space-4;
+    }
+  }
+}
+
+// After 0.75s, peek up to ~5px with a tiny bounce and settle at 5px
+@keyframes infocard-peek {
+  0% {
+    backdrop-filter: blur(0);
+    background: transparent;
+    color: transparent;
+    max-height: 0;
+  }
+
+  70% {
+    backdrop-filter: blur(0);
+    background: transparent;
+    color: transparent;
+    max-height: 7px;
+  }
+
+  100% {
+    backdrop-filter: blur(0);
+    color: transparent;
+    max-height: 5px;
+  }
+}
+
+// Reveal to full with subtle padding bounce at the end; keep overflow visible afterwards
+@keyframes infocard-reveal {
+  0% {
+    color: white;
+    max-height: 5px;
+    padding-bottom: 0;
+    padding-top: 0;
+    transform: translateY(0);
+  }
+
+  70% {
+    color: white;
+    max-height: 1200px;
+    padding-bottom: $space-7 + 2px;
+    padding-top: $space-7 + 2px;
+    transform: translateY(-3px);
+  }
+
+  85% {
+    color: white;
+    max-height: 1000px;
+    padding-bottom: $space-7 -1px;
+    padding-top: $space-7 -1px;
+    transform: translateY(-1px);
+  }
+
+  100% {
+    backdrop-filter: blur(38px);
+    color: white;
+    max-height: 1000px;
+    overflow: visible;
+    padding-bottom: $space-7;
+    padding-top: $space-7;
+    transform: translateY(0);
+  }
+}
+
+@include down(lg) {
+  @keyframes infocard-reveal-sm {
+    0% {
+      color: white;
+      max-height: 5px;
+      padding-bottom: 0;
+      padding-top: 0;
+      transform: translateY(0);
+    }
+
+    70% {
+      color: white;
+      max-height: 1200px;
+      padding-bottom: $space-4 + 3px;
+      padding-top: $space-4 + 3px;
+      transform: translateY(-3px);
+    }
+
+    85% {
+      color: white;
+      max-height: 1000px;
+      padding-bottom: $space-4 + 1px;
+      padding-top: $space-4 + 1px;
+      transform: translateY(1px);
+    }
+
+    100% {
+      backdrop-filter: blur(38px);
+      color: white;
+      max-height: 1000px;
+      overflow: visible;
+      padding-bottom: $space-4;
+      padding-top: $space-4;
+      transform: translateY(0);
+    }
+  }
+}
+
+@keyframes infocard-reverse {
+  0% {
+    backdrop-filter: blur(38px);
+    max-height: 1000px;
+    overflow: visible;
+    padding-bottom: $space-7;
+    padding-top: $space-7;
+    transform: translateY(0);
+  }
+
+  30% {
+    max-height: 1200px;
+    padding-bottom: $space-7 + 2px;
+    padding-top: $space-7 + 2px;
+    transform: translateY(-2px);
+  }
+
+  50% {
+    max-height: 800px;
+    padding-bottom: $space-7 - 1px;
+    padding-top: $space-7 - 1px;
+    transform: translateY(1px);
+  }
+
+  100% {
+    backdrop-filter: blur(0);
+    background: transparent;
+    max-height: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+    padding-top: 0;
+    transform: translateY(0);
+  }
+}
+
+@include down(lg) {
+  @keyframes infocard-reverse-sm {
+    0% {
+      backdrop-filter: blur(38px);
+      max-height: 1000px;
+      overflow: visible;
+      padding-bottom: $space-4;
+      padding-top: $space-4;
+    }
+
+    30% {
+      max-height: 1200px;
+      padding-bottom: $space-4 + 3px;
+      padding-top: $space-4 + 3px;
+    }
+
+    50% {
+      max-height: 800px;
+      padding-bottom: $space-4 + 1px;
+      padding-top: $space-4 + 1px;
+    }
+
+    100% {
+      backdrop-filter: blur(0);
+      background: transparent;
+      max-height: 0;
+      overflow: hidden;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+}

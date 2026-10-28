@@ -1,0 +1,49 @@
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.CanvasVideoPlayer {
+  background: #000;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  @include down(lg) {
+    height: 100%;
+
+    // transform: scale(3, 1);
+  }
+}
+
+.canvas {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+
+  @include down(md) {
+    height: calc(var(--viewport-height) - 80px);
+  }
+}
+
+.hiddenVideo {
+  height: 1px;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 1px;
+}
+
+.transitionOverlay {
+  background: radial-gradient(
+    closest-side,
+    rgb(255, 255, 255, 15%),
+    rgb(0, 0, 0, 0%)
+  );
+  inset: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  position: absolute;
+}

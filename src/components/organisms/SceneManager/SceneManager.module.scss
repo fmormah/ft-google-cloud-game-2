@@ -1,0 +1,318 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.hud-controls {
+  align-items: center;
+  display: flex;
+  gap: 0;
+  height: 45px;
+  overflow: hidden;
+  pointer-events: all;
+  touch-action: pan-y; // allow vertical scroll gestures to bubble on mobile
+  width: 100%;
+  z-index: 1;
+
+  .hud-controls__left,
+  .hud-controls__center,
+  .hud-controls__right {
+    height: 100%;
+
+    @include up(lg) {
+      @include glass-surface(0.35, 0.2, 37.5px);
+    }
+  }
+
+  .hud-controls__left,
+  .hud-controls__right {
+    flex: 0 0 90px;
+  }
+
+  .hud-controls__right {
+    align-items: stretch;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hud-controls__center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 938px;
+    padding: $space-4;
+    width: 100%;
+  }
+
+  @include up(lg) {
+    height: 50px;
+
+    .hud-controls__left,
+    .hud-controls__right {
+      flex-basis: 122px;
+    }
+  }
+
+  @include down(lg) {
+    @include glass-surface(0.35, 0.2, 37.5px);
+  }
+}
+
+// Character select: show center/right content on mobile, hide on desktop
+.hud-controls.is-character-select {
+  .hud-controls__center,
+  .hud-controls__right {
+    // ensure visible on mobile
+    opacity: 1;
+  }
+
+  @include up(lg) {
+    .hud-controls__center,
+    .hud-controls__right {
+      // hide on desktop
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+// Entrance animation modifier for hud-controls
+.hud-controls--enter {
+  animation: hud-controls-enter 400ms ease-out forwards;
+}
+
+@keyframes hud-controls-enter {
+  from {
+    @include down(lg) {
+      opacity: 0;
+    }
+
+    transform: translateY(-10px);
+  }
+
+  to {
+    @include down(lg) {
+      opacity: 1;
+    }
+
+    transform: translateY(0);
+  }
+}
+
+.gamehud {
+  height: 100%;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  touch-action: pan-y; // ensure vertical scroll gestures aren't blocked by overlay
+  width: 100%;
+  z-index: 1000;
+
+  @include up(lg) {
+    padding: $space-7;
+  }
+}
+
+.gamehud__corner--tl,
+.gamehud__corner--tr,
+.gamehud__corner--bl,
+.gamehud__corner--br {
+  @include down(lg) {
+    display: none;
+  }
+}
+
+.gamehud__corner--tl {
+  background-color: $color-primary-contrast;
+  height: $size-corner-square;
+  left: 0;
+  margin: $space-7;
+  position: absolute;
+  top: 0;
+  width: $size-corner-square;
+}
+
+.gamehud__corner--tr {
+  background-color: $color-primary-contrast;
+  height: $size-corner-square;
+  margin: $space-7;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: $size-corner-square;
+}
+
+.gamehud__corner--bl {
+  background-color: $color-primary-contrast;
+  bottom: 0;
+  height: $size-corner-square;
+  left: 0;
+  margin: $space-7;
+  position: absolute;
+  width: $size-corner-square;
+}
+
+.gamehud__corner--br {
+  background-color: $color-primary-contrast;
+  bottom: 0;
+  height: $size-corner-square;
+  margin: $space-7;
+  position: absolute;
+  right: 0;
+  width: $size-corner-square;
+}
+
+.hud-score {
+  color: $color-primary-contrast;
+  font-family: $font-family-display;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: $font-weight-bold;
+  height: 100%;
+  justify-content: center;
+  line-height: 120%;
+  padding: 16px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background-color $duration-fast ease;
+  width: 100%;
+}
+
+.hud-score--positive {
+  background-color: #788c3b;
+}
+
+.hud-score--negative {
+  background-color: #97423d;
+}
+
+// Flash animation: add one more color-change blink (total 5 transitions @ ~0.35s each ≈ 1.75s)
+@keyframes hud-score-flash-positive {
+  0% {
+    background-color: transparent;
+  }
+
+  20% {
+    background-color: #788c3b;
+  }
+
+  40% {
+    background-color: transparent;
+  }
+
+  60% {
+    background-color: #788c3b;
+  }
+
+  80% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: #788c3b;
+  }
+}
+
+@keyframes hud-score-flash-negative {
+  0% {
+    background-color: transparent;
+  }
+
+  20% {
+    background-color: #97423d;
+  }
+
+  40% {
+    background-color: transparent;
+  }
+
+  60% {
+    background-color: #97423d;
+  }
+
+  80% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: #97423d;
+  }
+}
+
+.hud-score--flash-positive {
+  animation: hud-score-flash-positive 1.75s ease-in-out forwards;
+}
+
+.hud-score--flash-negative {
+  animation: hud-score-flash-negative 1.75s ease-in-out forwards;
+}
+
+.hud-share {
+  height: 100%;
+  justify-content: center;
+  padding: 0 16px;
+  white-space: nowrap;
+  width: 100%;
+}
+
+// Show 5x5 white corner squares on lg breakpoint and up
+@include up(lg) {
+  .hud-score::before,
+  .hud-score::after,
+  .hud-score__corner--bl,
+  .hud-score__corner--br {
+    background: $color-primary-contrast;
+    content: "";
+    display: block;
+    height: $size-corner-square;
+    position: absolute;
+    width: $size-corner-square;
+  }
+
+  .hud-score::before {
+    left: 0;
+    top: 0;
+  }
+
+  .hud-score::after {
+    right: 0;
+    top: 0;
+  }
+
+  .hud-score__corner--bl {
+    bottom: 0;
+    left: 0;
+  }
+
+  .hud-score__corner--br {
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.progress {
+  background: rgb(255 255 255 / 20%);
+  display: block;
+  height: 3px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.progress__fill {
+  background: $color-primary-contrast;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: width 250ms ease;
+  width: 0%;
+}
+
+// Transparent modifiers for center/right segments when content is hidden
+.hud-controls__center.is-transparent,
+.hud-controls__right.is-transparent {
+  backdrop-filter: none;
+  background: transparent;
+}

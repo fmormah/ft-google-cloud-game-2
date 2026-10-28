@@ -1,0 +1,37 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.EngineNotification {
+  align-items: center;
+  background: #fff;
+  color: #151618;
+  display: flex;
+  font-family: $font-family-condensed;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: $font-weight-regular;
+  justify-content: space-between;
+  line-height: 120%;
+  padding: 5px 16px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.labelLeft {
+  @include notification-chip(transparent, currentColor, 0, 0);
+
+  letter-spacing: 0.02em;
+}
+
+.labelRight {
+  @include notification-chip(transparent, currentColor, 0, 0);
+
+  align-items: baseline;
+  gap: 2px;
+}
+
+.dots {
+  display: inline-block;
+  min-width: 10px;
+}

@@ -1,0 +1,30 @@
+.VideoPlayer {
+  backface-visibility: hidden;
+  background: #000;
+  height: var(--viewport-height, 100vh);
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  transform: translate3d(0, 0, 0);
+  width: 100%;
+  will-change: transform;
+  z-index: -1;
+}
+
+.video {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.fxVideo {
+  height: 100%;
+  left: 0;
+  mix-blend-mode: screen;
+  object-fit: cover;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}

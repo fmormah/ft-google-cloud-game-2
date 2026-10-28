@@ -1,0 +1,18 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "order/properties-alphabetical-order": true,
+    "no-descending-specificity": null,
+    "color-function-notation": null,
+    "selector-class-pattern": null,
+    "property-no-vendor-prefix": null,
+    "at-rule-no-unknown": null
+  },
+  "overrides": [
+    {
+      "files": ["**/*.scss"],
+      "customSyntax": "postcss-scss"
+    }
+  ]
+}

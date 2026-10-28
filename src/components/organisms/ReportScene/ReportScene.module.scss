@@ -1,0 +1,373 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+// Decelerating ease for reveals (slows toward the end)
+$ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+
+.ReportScene {
+  height: 100%;
+  inset: 0;
+  margin: 0 auto;
+  max-width: 1000px;
+  position: relative;
+  top: 32px;
+  width: 100%;
+}
+
+@include down(lg) {
+  .ReportScene {
+    height: auto;
+    inset: auto;
+    max-height: unset;
+    padding-top: 50px;
+    position: relative;
+    top: 0;
+  }
+}
+
+.videoLayer {
+  height: 100%;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+.engineNotice {
+  margin-bottom: $space-4;
+}
+
+.video {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.uiLayer {
+  bottom: 0;
+  left: 0;
+  padding: $space-4;
+  position: relative;
+  right: 0;
+}
+
+@include down(lg) {
+  .uiLayer {
+    padding-bottom: $space-0;
+  }
+}
+
+.reportGrid {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include up(lg) {
+    column-count: 2;
+    column-gap: $space-4;
+    display: block;
+  }
+}
+
+.panel {
+  flex: 1 1 100%;
+  overflow: hidden;
+  position: relative;
+
+  @include up(lg) {
+    break-inside: avoid;
+    display: inline-block;
+    margin: 0 0 $space-4;
+    min-width: 0;
+    width: 100%;
+  }
+
+  [class*="InfoCard__content"],
+  [class*="panelStack"]:nth-child(1) {
+    min-width: 280px;
+  }
+}
+
+.panelA {
+  // Use transform-based reveal to preserve backdrop-filter blur
+  overflow: hidden;
+
+  > * {
+    animation: panel-reveal-left 600ms $ease-decelerate 0.1s forwards;
+    transform: translateX(100%);
+  }
+}
+
+.panelB {
+  // Use transform-based reveal to preserve backdrop-filter blur
+  overflow: hidden;
+
+  > * {
+    animation: panel-reveal-left 650ms $ease-decelerate 0.15s forwards;
+    transform: translateX(100%);
+  }
+}
+
+.panelC {
+  // Use transform-based reveal to preserve backdrop-filter blur
+  overflow: hidden;
+
+  > * {
+    animation: panel-reveal-right 650ms $ease-decelerate 0.2s forwards;
+    transform: translateX(-100%);
+  }
+}
+
+.panelD {
+  // Use transform-based reveal to preserve backdrop-filter blur
+  overflow: hidden;
+
+  > * {
+    animation: panel-reveal-down 700ms $ease-decelerate 0.25s forwards;
+    transform: translateY(-100%);
+  }
+}
+
+.panelE {
+  @include up(lg) {
+    bottom: 24px;
+    left: 16px;
+    position: absolute;
+    width: calc(50% - 24px);
+  }
+
+  @include down(lg) {
+    left: -16px;
+    position: relative;
+    width: calc(100% + 32px);
+
+    button:not(:first-child) {
+      width: 100%;
+    }
+
+    button:nth-child(1) {
+      max-width: 180px;
+    }
+  }
+}
+
+.infoBox {
+  margin: 0;
+}
+
+.sessionStats {
+  background: transparent;
+  padding: $space-4;
+}
+
+.statsHeader {
+  align-items: end;
+  display: grid;
+  gap: $space-4;
+  grid-template-columns: 1fr auto;
+  padding-top: $space-6;
+}
+
+.statsTitleBlock {
+  display: grid;
+  gap: 2px;
+}
+
+.statsTitleSmall {
+  color: #fff;
+  font-family: $font-family-condensed;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.statsSubtitle {
+  color: rgb(255 255 255 / 60%);
+  font-family: $font-family-condensed;
+  font-size: 10px;
+}
+
+.statsTopRule {
+  border-top: 1px solid rgb(255 255 255 / 30%);
+}
+
+.statsNumber {
+  color: #fff;
+  font-family: $font-family-condensed;
+  font-size: 64px;
+  font-weight: $font-weight-regular;
+  line-height: 1;
+}
+
+.rule {
+  border-top: 1px solid rgb(255 255 255 / 30%);
+  margin: $space-4 0;
+}
+
+.statsRow {
+  display: grid;
+  gap: $space-4;
+  grid-template-columns: 1fr 1fr;
+}
+
+.statBlock {
+  display: grid;
+  gap: 2px;
+}
+
+.statKicker {
+  color: rgb(255 255 255 / 60%);
+  font-family: $font-family-condensed;
+  font-size: 10px;
+}
+
+.statLabel {
+  color: rgb(255 255 255 / 40%);
+  font-family: $font-family-condensed;
+  font-size: 10px;
+}
+
+.statValue {
+  font-family: $font-family-condensed;
+  font-size: 28px;
+}
+
+.positive {
+  color: #a6ff52;
+}
+
+.negative {
+  color: #ff5a5a;
+}
+
+.actionsRow {
+  align-items: center;
+  display: grid;
+  gap: $space-4;
+  grid-template-columns: auto 1fr;
+  padding-bottom: $space-6;
+}
+
+.actionsLeft {
+  align-self: start;
+}
+
+.actionsRight {
+  align-items: center;
+  display: grid;
+  gap: $space-4;
+  grid-auto-flow: column;
+  justify-content: start;
+}
+
+.actionItem {
+  align-items: center;
+  display: inline-grid;
+  gap: 8px;
+  grid-auto-flow: column;
+}
+
+.actionIcon {
+  align-items: center;
+  border: $border-thin solid rgb(255 255 255 / 60%);
+  border-radius: 999px;
+  display: inline-flex;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.actionText {
+  color: #fff;
+  font-family: $font-family-condensed;
+  font-size: 12px;
+}
+
+.correctClicks {
+  border: 2px solid $color-primary-contrast;
+  color: $color-primary-contrast;
+  display: inline-block;
+  font-family: $font-family-condensed;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 8px 12px;
+  text-transform: uppercase;
+}
+
+.panelStack {
+  display: grid;
+  gap: 0;
+}
+
+.infoTitle {
+  font-family: $font-family-condensed;
+  font-weight: $font-weight-regular;
+  margin: 0 0 $space-2;
+}
+
+.infoBody {
+  font-family: $font-family-condensed;
+  font-weight: $font-weight-regular;
+  margin: 0;
+}
+
+.watchButton {
+  height: auto;
+}
+
+.watchButtonButton {
+  height: auto;
+  padding: 24px;
+  width: 100%;
+}
+
+.watchImage {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.holo {
+  height: 300px;
+  width: 100%;
+}
+
+.panelEButtons {
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1fr 1fr;
+
+  @include down(lg) {
+    grid-template-columns: 0fr 2fr;
+  }
+
+  button:not(:last-child) {
+    img {
+      display: none;
+    }
+  }
+}
+
+// Keyframes: transform-based reveals to preserve backdrop-filter blur
+@keyframes panel-reveal-left {
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes panel-reveal-right {
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes panel-reveal-down {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.panelEButton {
+  width: 100%;
+}

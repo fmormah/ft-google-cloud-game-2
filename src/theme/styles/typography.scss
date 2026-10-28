@@ -1,0 +1,150 @@
+@use "./tokens" as *;
+@use "./breakpoints" as *;
+
+html {
+  color: $color-text;
+  font-family: $font-family-sans;
+}
+
+body {
+  background: $color-background;
+  font-weight: $font-weight-regular;
+  line-height: 1.6;
+}
+
+h1,
+.h1 {
+  font-family: $font-family-display;
+  font-size: 2.5rem;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+}
+
+h2,
+.h2 {
+  font-family: $font-family-sans;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.25;
+  margin: 0;
+
+  @include down(lg) {
+    font-size: 1.5rem;
+  }
+}
+
+h3,
+.h3 {
+  font-family: $font-family-condensed;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+h4,
+.h4 {
+  font-family: $font-family-display;
+  font-size: 1.5rem;
+  font-weight: $font-weight-medium;
+  line-height: 1.35;
+}
+
+h5,
+.h5 {
+  font-family: $font-family-display;
+  font-size: 1.25rem;
+  font-weight: $font-weight-medium;
+  line-height: 1.4;
+}
+
+h6,
+.h6 {
+  font-family: $font-family-display;
+  font-size: 1.125rem;
+  font-weight: $font-weight-medium;
+  line-height: 1.45;
+}
+
+p,
+.p {
+  font-size: 1rem;
+  padding-bottom: 1rem;
+}
+
+small,
+.small {
+  color: $color-text-muted;
+  font-size: 0.875rem;
+}
+
+.lead {
+  color: $color-text;
+  font-size: 1.125rem;
+}
+
+.muted {
+  color: $color-text-muted;
+}
+
+.eyebrow {
+  color: $color-text-muted;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.type-title {
+  font-family: $font-family-sans;
+  font-size: 24px;
+  font-weight: $font-weight-regular;
+  line-height: 30px;
+  padding-bottom: 0.5rem;
+
+  @include up(spec-desktop-min) {
+    font-size: 32px;
+    line-height: 33px;
+  }
+}
+
+.type-body {
+  font-family: $font-family-sans;
+  font-size: 14px;
+  font-weight: $font-weight-light;
+  letter-spacing: $tracking-tight-2;
+  line-height: 120%;
+
+  @include up(spec-desktop-min) {
+    font-size: 16px;
+  }
+}
+
+.type-cta {
+  font-family: $font-family-condensed;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  line-height: 120%;
+  text-transform: uppercase;
+}
+
+.type-small {
+  font-family: $font-family-condensed;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  line-height: 120%;
+  text-transform: uppercase;
+
+  @include up(spec-desktop-min) {
+    font-size: 12px;
+  }
+}
+
+.type-scoring {
+  font-family: $font-family-display;
+  font-size: 12px;
+  font-weight: $font-weight-bold;
+  line-height: 120%;
+
+  @include up(spec-desktop-min) {
+    font-size: 14px;
+  }
+}

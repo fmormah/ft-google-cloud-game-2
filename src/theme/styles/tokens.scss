@@ -1,0 +1,71 @@
+$color-text: #111;
+$color-text-muted: #5a5a5a;
+$color-background: #fff;
+$color-surface: #f5f7fa;
+$color-primary: #0a6cff;
+$color-primary-contrast: #fff;
+$color-secondary: #ff3b3b;
+$color-black: #000;
+
+$space-0: 0;
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-7: 32px;
+$space-8: 40px;
+$space-9: 48px;
+$space-10: 64px;
+
+$radius-none: 0;
+$radius-sm: 2px;
+$radius-md: 6px;
+$radius-lg: 10px;
+$radius-pill: 9999px;
+
+$shadow-sm: 0 1px 2px rgb(0, 0, 0, 7%);
+$shadow-md: 0 2px 8px rgb(0, 0, 0, 8%);
+$shadow-lg: 0 8px 20px rgb(0, 0, 0, 12%);
+
+$font-family-sans:
+  "Roboto",
+  system-ui,
+  -apple-system,
+  segoe ui,
+  roboto,
+  helvetica,
+  arial,
+  "Apple Color Emoji",
+  "Segoe UI Emoji";
+$font-family-display: "Doto", $font-family-sans;
+$font-family-condensed: "Roboto Condensed", $font-family-sans;
+
+$tracking-tight-2: -0.02em;
+$font-weight-thin: 100;
+$font-weight-extralight: 200;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+$font-weight-black: 900;
+
+$z-base: 1;
+$z-dropdown: 1000;
+$z-sticky: 1100;
+$z-fixed: 1200;
+$z-modal-backdrop: 1300;
+$z-modal: 1400;
+$z-popover: 1500;
+$z-toast: 1600;
+
+$border-thin: 1px;
+$size-corner-square: 5px;
+
+$duration-fast: 200ms;
+$duration-normal: 400ms;
+$duration-slow: 800ms;
+$duration-hero: 2400ms;

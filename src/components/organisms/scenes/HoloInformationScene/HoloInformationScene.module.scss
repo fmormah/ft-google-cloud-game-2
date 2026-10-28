@@ -1,0 +1,223 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.HoloInformationScene {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  overflow: hidden;
+  padding-top: 50px;
+  position: relative;
+}
+
+.backgroundVideoLayer {
+  height: 100%;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+}
+
+.backgroundVideo {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.backgroundScrim {
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 35%) 0%,
+    rgb(0 0 0 / 65%) 100%
+  );
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: $space-4;
+  padding-top: 16px;
+  position: relative;
+  top: 0;
+  transition:
+    opacity 0.2s ease-out,
+    top 0.2s ease-out;
+  width: 100%;
+  z-index: 2;
+
+  [class*="_HologramDisplay"] {
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+  }
+
+  [class*="_InfoCard"] {
+    flex: 0 0 auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  [class*="copy-content"] {
+    overflow: hidden;
+
+    @media (height <= 600px) {
+      height: 75%;
+    }
+  }
+
+  @include up(lg) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    margin: 0 auto;
+    max-width: 580px;
+    padding: 0 0 16px;
+    padding-top: 0;
+    position: relative;
+    top: 43%;
+    transform: translateY(-47%);
+    width: 100%;
+    z-index: 3;
+  }
+
+  &.isVisible {
+    opacity: 1;
+  }
+
+  &.isCompact {
+    @include down(lg) {
+      @media (height <= 900px) {
+        height: 61vh;
+      }
+    }
+
+    [class*="InfoCard__content"] {
+      direction: rtl;
+      height: 20vh;
+      overflow: hidden scroll;
+      -webkit-overflow-scrolling: touch;
+      padding-left: 16px;
+    }
+
+    // iOS Scroll Hint Overlay on the card wrapper
+    [data-infocard] {
+      &::after {
+        background: linear-gradient(
+          to bottom,
+          rgb(0 0 0 / 0%) 0%,
+          rgb(0 0 0 / 60%) 100%
+        );
+        bottom: 0;
+        content: "";
+        height: 40px;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        z-index: 2;
+      }
+    }
+
+    [class*="InfoCard__content"]::-webkit-scrollbar {
+      width: 1px;
+    }
+
+    [class*="InfoCard__content"]::-webkit-scrollbar-track {
+      background: #666;
+    }
+
+    [class*="InfoCard__content"]::-webkit-scrollbar-thumb {
+      background: #fff;
+    }
+
+    [class*="InfoCard__content"] > * {
+      direction: ltr;
+    }
+  }
+}
+
+.section {
+  margin-bottom: $space-4;
+
+  &:first-child {
+    flex: 0 0 auto;
+  }
+
+  &:nth-child(2) {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 200px;
+
+    // max-height: 190px;
+
+    @include up(lg) {
+      flex: none;
+      max-height: 500px;
+    }
+  }
+
+  &:last-child {
+    flex: 0 0 auto;
+  }
+}
+
+.sectionInfoCard {
+  margin-bottom: 0;
+  position: relative;
+  z-index: 3;
+
+  [class*="InfoCard__content"] {
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+  }
+
+  @include down(lg) {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+.ctaMobile {
+  background: linear-gradient(
+    180deg,
+    rgb(0, 0, 0, 0%) 0%,
+    rgb(0, 0, 0, 35%) 100%
+  );
+  bottom: 0;
+  display: grid;
+  left: 0;
+  place-items: center;
+  position: absolute;
+  right: 0;
+  z-index: 3;
+
+  @include up(lg) {
+    display: none;
+  }
+}
+
+.ctaDesktop {
+  display: none;
+
+  @include up(lg) {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 0 0;
+    position: static;
+    width: 100%;
+  }
+}

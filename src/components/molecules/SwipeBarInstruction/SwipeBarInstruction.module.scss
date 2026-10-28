@@ -1,0 +1,117 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.SwipeBarInstruction {
+  // Themeable colors via CSS variables
+  --sb-bg: #4a4a42; // default dark background
+  --sb-fg: #fff; // default foreground (text/lines)
+
+  align-items: center;
+  backdrop-filter: blur(75px);
+  background:
+    linear-gradient(
+      0deg,
+      rgb(255, 255, 255, 10%) 0%,
+      rgb(255, 255, 255, 10%) 100%
+    ),
+    rgb(0, 0, 0, 20%);
+  box-shadow: 0 4px 12px rgb(0, 0, 0, 10%);
+  color: var(--sb-fg);
+  display: inline-flex;
+  font-family:$font-family-condensed;
+  font-size: 4vw;
+  justify-content: center;
+  letter-spacing: 1.5px;
+  line-height: 120%;
+  max-width: 100%;
+  padding: 8px 16px;
+  text-align: center;
+  text-transform: uppercase;
+  width: calc(100vw - 30px);
+
+  .content {
+    align-items: center;
+    display: inline-flex;
+    gap: 8px;
+  }
+
+  .label {
+    white-space: nowrap;
+  }
+
+  .animatedArrow {
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .arrow {
+    border-bottom: 2.5px solid transparent;
+    border-top: 2.5px solid transparent;
+    display: inline-block;
+    height: 0;
+    position: relative;
+    top: 0;
+    width: 0;
+  }
+
+  .arrowLeft {
+    border-right: 5px solid var(--sb-fg);
+    left: 8px;
+    transform: scale(1, 2);
+  }
+
+  .arrowRight {
+    border-left: 5px solid var(--sb-fg);
+    right: 8px;
+    transform: scale(1, 2);
+  }
+
+  .track {
+    background-color: var(--sb-fg);
+    height: 1px;
+    margin: 0 1.5vw;
+    position: relative;
+    width: 6vw;
+  }
+
+  .handle {
+    animation: slide-back-and-forth 2s infinite ease-in-out;
+    background-color: var(--sb-fg);
+    border-radius: 1px;
+    height: 5px;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+  }
+
+  &.SwipeBarInstruction--sm {
+    padding: 6px 12px;
+  }
+
+  &.SwipeBarInstruction--light {
+    --sb-bg: rgb(255, 255, 255, 90%);
+    --sb-fg: #111;
+
+    box-shadow: 0 4px 12px rgb(0, 0, 0, 15%);
+  }
+}
+
+@keyframes slide-back-and-forth {
+  0% {
+    left: 0;
+    transform: translateY(-50%) scale(1);
+  }
+
+  50% {
+    left: calc(100% - 5px);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  100% {
+    left: 0;
+    transform: translateY(-50%) scale(1);
+  }
+}

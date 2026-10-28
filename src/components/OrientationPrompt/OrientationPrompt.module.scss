@@ -1,0 +1,104 @@
+@use "@/theme/styles" as *;
+
+.overlay {
+  background: #000;
+  display: none;
+  inset: 0;
+  overflow: hidden;
+  place-items: center;
+  position: fixed;
+  z-index: 999;
+}
+
+.video {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  opacity: 0.6;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+}
+
+.loadingScreen {
+  inset: 0;
+  position: absolute;
+
+  [class*="_content"] {
+    animation: none;
+    opacity: 1;
+  }
+
+  [class*="_irisLayer"] {
+    animation: none;
+    opacity: 1;
+  }
+
+  [class*="_barWrapper"] {
+    display: none;
+  }
+
+  [class*="message"] {
+    font-size: 14px;
+    max-width: 300px;
+    position: relative;
+
+    &::after {
+      background-color: rgb(255, 255, 255, 10%);
+      background-image: var(--asset-url-rotate-phone);
+      background-position: center center;
+      background-repeat: no-repeat;
+      border-radius: 100%;
+      content: "";
+      display: block;
+      height: 145px;
+      margin: 32px auto 0;
+      width: 145px;
+    }
+
+    &::before {
+      animation: orientation-spin 4s cubic-bezier(0.5, 0, 0.2, 1) 0.5s forwards;
+      background-image: var(--asset-url-rotate-arrows);
+      background-position: center center;
+      background-repeat: no-repeat;
+      bottom: 0;
+      content: "";
+      display: block;
+      height: 145px;
+      left: 77px;
+      position: absolute;
+      transform-origin: center;
+      width: 145px;
+    }
+  }
+}
+
+@include down(lg) {
+  @media (orientation: landscape) and (height <= 650px) {
+    .overlay {
+      display: grid;
+    }
+  }
+}
+
+@keyframes orientation-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-360deg);
+  }
+
+  100% {
+    transform: rotate(-720deg);
+  }
+}
+
+// @include up(lg) {
+//   @media (height <= 550px) {
+//     .overlay {
+//       display: grid;
+//     }
+//   }
+// }

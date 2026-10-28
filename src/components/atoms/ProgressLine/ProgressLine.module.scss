@@ -1,0 +1,72 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.ProgressLine {
+  height: $space-6;
+  margin: 0 auto;
+  max-width: 900px;
+  position: relative;
+  width: 100%;
+
+  --pl-color: #fff;
+  --pl-square: 5px;
+
+  &__base,
+  &__progress {
+    background: rgb(255, 255, 255, 50%);
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__progress {
+    background: var(--pl-color);
+    opacity: 1;
+    transition: width 240ms ease;
+    width: calc(
+      (100% - var(--pl-square)) * var(--pl-progress, 0) + (var(--pl-square) / 2)
+    );
+  }
+
+  &__steps {
+    align-items: center;
+    display: flex;
+    inset: 0;
+    justify-content: space-between;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  &__step {
+    background: rgb(255, 255, 255, 50%);
+    height: 4px;
+    justify-self: center;
+    transform-origin: center;
+    transition:
+      background-color 180ms ease,
+      transform 180ms ease,
+      width 180ms ease,
+      height 180ms ease;
+    width: 4px;
+
+    &.is-active {
+      background: var(--pl-color);
+      height: var(--pl-square);
+      transform: scale(1.04);
+      width: var(--pl-square);
+    }
+
+    &.is-current {
+      height: 8px;
+      width: 8px;
+    }
+  }
+
+  @include down(lg) {
+    width: 100%;
+  }
+}

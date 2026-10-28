@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "08:00"
+    groups:
+      patch-and-minor:
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          - "mathsass"

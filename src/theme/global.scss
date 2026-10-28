@@ -1,0 +1,205 @@
+@use "./styles" as *;
+@use "./styles/typography" as *;
+
+:root {
+  // Use small viewport height (svh) for constant height that doesn't resize when
+  // browser UI (address bars, toolbars) shows/hides on iOS and Android.
+  // Falls back to vh for older browsers that don't support svh.
+  --viewport-height: 100vh;
+}
+
+@supports (height: 100svh) {
+  :root {
+    --viewport-height: 100svh;
+  }
+}
+
+html {
+  color: $color-text;
+  font-family: $font-family-sans;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: $color-black;
+  cursor: none;
+  margin: 0;
+  min-height: var(--viewport-height);
+}
+
+// Below 800px we disable the custom cursor UI and fall back to the native cursor.
+@media (width <= 799px) {
+  body {
+    cursor: auto;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.material-symbols-rounded {
+  direction: ltr;
+  display: inline-block;
+  /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+  font-family: "Material Symbols Rounded";
+  font-feature-settings: "liga";
+  font-size: 24px;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 100,
+    "GRAD" 0,
+    "opsz" 24;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  overflow-wrap: normal;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+  outline: 2px solid transparent;
+  outline-offset: 4px;
+  transition: outline-color 150ms ease-in-out;
+
+  &:focus-visible {
+    outline-color: white;
+  }
+}
+
+.screen-reader-only {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.game-container {
+  height: calc(var(--viewport-height) - 97px);
+  inset: 0;
+  min-height: 600px;
+  position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%;
+  z-index: 0;
+
+  * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  @include down(lg) {
+    height: calc(var(--viewport-height) - 117px);
+    min-height: unset;
+    overflow: clip;
+  }
+}
+
+.game-container.is-holo-info {
+  // Keep a stable "stage" height for the holo info scene on short viewports.
+  // This replaces a breakpoint ladder with a single fluid rule.
+  @media (height <= 930px) {
+    height: clamp(745px, calc(1046px - 30.8vh), 820px);
+  }
+
+  @media (height <= 855px) {
+    height: clamp(745px, calc(1046px - 48.8vh), 820px);
+  }
+
+  // Prefer svh where supported (avoids address-bar show/hide jumps on mobile).
+  @supports (height: 100svh) {
+    @media (height <= 930px) {
+      height: clamp(745px, calc(1046px - 30.8svh), 820px);
+    }
+
+    @media (height <= 855px) {
+      height: clamp(745px, calc(1046px - 48.8svh), 820px);
+    }
+  }
+}
+
+.game-container.is-end-of-year.is-end-of-year-final {
+  min-height: 900px;
+
+  [class*="HologramDisplay"] {
+    video {
+      transform: translateX(-50%) scale(0.75);
+    }
+  }
+
+  @include down(lg) {
+    height: auto;
+    overflow: visible;
+
+    @supports (-webkit-touch-callout: none) {
+      @media (pointer: coarse) {
+        height: auto;
+      }
+    }
+
+    [class*="hud-controls--enter"] {
+      backdrop-filter: none;
+      position: relative;
+      top: -45px;
+
+      button[class*="MuteToggle"] {
+        background:
+          linear-gradient(0deg, #0003 0% 100%),
+          linear-gradient(0deg, #ffffff1a 0% 100%), #ffffff1a;
+      }
+    }
+  }
+}
+
+.header-container {
+  cursor: default;
+  left: 0;
+  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  p {
+    padding-bottom: 0;
+  }
+}
+
+.footer-container {
+  cursor: default;
+  position: relative;
+  z-index: 1;
+}
+
+.o-cookie-message--active {
+  cursor: default;
+  z-index: 1;
+}
+
+.blurBackdrop {
+  backdrop-filter: blur(16px);
+  display: block;
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+button:focus-visible {
+  outline-color: white;
+  outline-offset: -2px;
+  outline-width: thin;
+}

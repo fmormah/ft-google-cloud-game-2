@@ -1,0 +1,99 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.ActiveCursor {
+  --ac-size: 40px;
+  --ac-dot-size: 4px;
+  --ac-color: #fff;
+
+  background: transparent;
+  border: 1px solid var(--ac-color);
+  border-radius: 100%;
+  display: inline-block;
+  height: var(--ac-size);
+  pointer-events: none;
+  position: relative;
+  transition-duration: 100ms;
+  width: var(--ac-size);
+
+  @include down(md) {
+    display: none;
+  }
+
+  &__dot {
+    background: var(--ac-color);
+    border-radius: 100%;
+    display: grid;
+    height: var(--ac-dot-size);
+    left: 50%;
+    overflow: hidden;
+    place-items: center;
+    position: absolute;
+    text-overflow: ellipsis;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition-duration: 200ms;
+    white-space: nowrap;
+    width: var(--ac-dot-size);
+  }
+
+  // NOTE: No explicit stationary styles currently; class exists for parity with JS.
+
+  &--hoverMode {
+    --ac-dot-size: 60px;
+    --ac-size: 72px;
+
+    border-width: 4px;
+
+    .ActiveCursor__label {
+      opacity: 1;
+    }
+  }
+
+  // Base cursor variant: keep all visuals/behavior but never show a label.
+  &--noLabel {
+    .ActiveCursor__label {
+      display: none !important;
+    }
+  }
+
+  // Overlay cursor variant: show only the label (white), hide cursor visuals.
+  &--labelOnly {
+    border-color: transparent !important;
+
+    .ActiveCursor__dot {
+      background: transparent !important;
+    }
+
+    .ActiveCursor__label {
+      color: #fff !important;
+    }
+  }
+
+  &__label {
+    color: #000;
+    font-family: $font-family-condensed;
+    font-size: 12px;
+    font-weight: $font-weight-regular;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    opacity: 0;
+    text-align: center;
+    text-transform: uppercase;
+    transition-duration: 200ms;
+  }
+
+  &--invert {
+    mix-blend-mode: difference;
+
+    &,
+    .ActiveCursor__dot {
+      color: gray;
+    }
+
+    .ActiveCursor__label {
+      color: #000;
+    }
+  }
+}

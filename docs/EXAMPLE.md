@@ -1,0 +1,1 @@
+Documentation should be added in-repo where relevant. If code comments do not suffice, long form documentation should be written for each feature as it's own `Feature.md` file and linked to from the root README.md.

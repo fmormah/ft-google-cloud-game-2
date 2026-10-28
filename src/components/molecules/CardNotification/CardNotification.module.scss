@@ -1,0 +1,292 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.CardNotification {
+  backdrop-filter: blur(10px);
+  background-color: transparent;
+  display: inline-flex;
+  font-family: $font-family-condensed;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  line-height: 120%;
+  overflow: hidden;
+  position: relative;
+  text-transform: uppercase;
+  width: max-content;
+
+  --rn-left-width: 0px;
+
+  @include down(lg) {
+    top: 2px;
+  }
+
+  .rightElement {
+    @include notification-chip-base($padX: 24px, $padY: 6px);
+    @include notification-chip-theme(transparent, currentColor);
+
+    &::after {
+      background: rgb(0, 0, 0, 20%);
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  .leftElement {
+    @include notification-chip-base($padX: 10px);
+    @include notification-chip-theme(transparent, currentColor);
+
+    align-items: center;
+    display: inline-flex;
+    gap: 8px;
+
+    @include up(lg) {
+      @include notification-chip-base($padX: 24px, $padY: 6px);
+    }
+  }
+
+  .leftPrefix {
+    font-family: $font-family-condensed;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 120%;
+    text-transform: uppercase;
+  }
+
+  .percentage {
+    align-items: center;
+    display: inline-flex;
+
+    .arrow {
+      opacity: 1;
+      position: relative;
+      transform: scale(2);
+    }
+  }
+
+  &.variant--default {
+    .leftElement {
+      @include notification-chip-theme(#fff, #242424);
+    }
+
+    .rightElement {
+      --rn-right-bg-start: rgb(255, 255, 255, 100%);
+      --rn-right-bg-final: rgb(255, 255, 255, 15%);
+      --rn-right-color-start: #242424;
+      --rn-right-color-final: #fff;
+
+      @include notification-chip-theme(
+        var(--rn-right-bg-final),
+        var(--rn-right-color-final)
+      );
+    }
+  }
+
+  &.variant--positive {
+    .leftElement {
+      @include notification-chip-theme(#d5ff5c, #242424);
+    }
+
+    .rightElement {
+      --rn-right-bg-start: rgb(213, 255, 92, 100%);
+      --rn-right-bg-final: rgb(213, 255, 92, 20%);
+      --rn-right-color-start: #242424;
+      --rn-right-color-final: #fff;
+
+      @include notification-chip-theme(
+        var(--rn-right-bg-final),
+        var(--rn-right-color-final)
+      );
+    }
+  }
+
+  &.variant--negative {
+    .leftElement {
+      @include notification-chip-theme(#d92f2f, white);
+    }
+
+    .rightElement {
+      --rn-right-bg-start: rgb(217, 47, 47, 100%);
+      --rn-right-bg-final: rgb(217, 47, 47, 30%);
+      --rn-right-color-start: #fff;
+      --rn-right-color-final: #fff;
+
+      @include notification-chip-theme(
+        var(--rn-right-bg-final),
+        var(--rn-right-color-final)
+      );
+    }
+  }
+
+  &.animated {
+    top: 4px;
+
+    .leftElement {
+      transform: translateY(110%);
+    }
+
+    .rightElement {
+      background: var(--rn-right-bg-start);
+      color: var(--rn-right-color-start);
+      transform: translateX(calc(-1 * var(--rn-left-width))) translateY(110%);
+    }
+
+    .arrow {
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    &.animate {
+      .leftElement {
+        animation: slide-up 0.3s 0.2s ease-out forwards;
+      }
+
+      .rightElement {
+        animation: slide-up-reveal 0.8s 0.2s ease-out forwards;
+      }
+
+      &.is-positive .arrow {
+        animation: slide-arrow-up 0.4s 0.75s ease-out forwards;
+      }
+
+      &.is-negative .arrow {
+        animation: slide-arrow-down 0.4s 0.75s ease-out forwards;
+      }
+    }
+
+    // Repeat-attempt compact mode: keep the motion, but don't animate colors.
+    &.hideLeftElement {
+      &.animate {
+        .rightElement {
+          animation: slide-up-reveal-no-color 0.8s 0.2s ease-out forwards;
+        }
+      }
+    }
+  }
+
+  &.animation--intro {
+    animation: card-notification-intro 1s cubic-bezier(0, 0, 0.2, 1) 0.45s
+      forwards;
+    opacity: 0;
+  }
+
+  &.animation--reverse {
+    animation: card-notification-reverse 0.3s cubic-bezier(0, 0, 0.2, 1)
+      forwards;
+  }
+
+  &.hideLeftElement {
+    .leftElement {
+      display: none;
+    }
+
+    &.animated {
+      top: 1px;
+    }
+  }
+}
+
+@keyframes slide-up {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up-reveal {
+  0% {
+    background: var(--rn-right-bg-start);
+    color: var(--rn-right-color-start);
+    transform: translateX(calc(-1 * var(--rn-left-width))) translateY(110%);
+  }
+
+  37.5% {
+    background: var(--rn-right-bg-start);
+    color: var(--rn-right-color-start);
+    transform: translateX(calc(-1 * var(--rn-left-width))) translateY(0);
+  }
+
+  75% {
+    background: var(--rn-right-bg-start);
+    color: var(--rn-right-color-start);
+    transform: translateX(calc(-1 * var(--rn-left-width))) translateY(0);
+  }
+
+  100% {
+    background: var(--rn-right-bg-final);
+    color: var(--rn-right-color-final);
+    transform: translateX(0) translateY(0);
+  }
+}
+
+// Same movement as slide-up-reveal, but avoids animating background/font colors.
+@keyframes slide-up-reveal-no-color {
+  0% {
+    transform: translateX(calc(-1 * var(--rn-left-width))) translateY(110%);
+  }
+
+  37.5% {
+    transform: translateX(calc(-1 * var(--rn-left-width))) translateY(0);
+  }
+
+  75% {
+    transform: translateX(calc(-1 * var(--rn-left-width))) translateY(0);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes slide-arrow-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%) scale(2);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(2);
+  }
+}
+
+@keyframes slide-arrow-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) scale(2);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(2);
+  }
+}
+
+@keyframes card-notification-intro {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  to {
+    max-height: 100px;
+    opacity: 1;
+  }
+}
+
+@keyframes card-notification-reverse {
+  from {
+    max-height: 100px;
+    opacity: 1;
+  }
+
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
+}

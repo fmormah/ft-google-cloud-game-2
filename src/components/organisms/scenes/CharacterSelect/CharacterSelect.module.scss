@@ -1,0 +1,183 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.CharacterSelect {
+  height: 100%;
+  inset: 0;
+  overflow: clip;
+  position: absolute;
+  touch-action: pan-y;
+  width: 100%;
+
+  .homeButtonDesktop {
+    bottom: $space-9;
+    display: none;
+    left: $space-9;
+    padding-left: $space-9;
+    padding-right: $space-9;
+    position: absolute;
+    z-index: 3;
+
+    @include up(lg) {
+      display: inline-flex;
+    }
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.videoLayer {
+  inset: 0;
+  position: absolute;
+}
+
+.uiLayer {
+  align-content: start;
+  bottom: 0;
+  padding: $space-4;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+
+  @include down(lg) {
+    padding-bottom: 0;
+  }
+
+  @include up(lg) {
+    bottom: 32px;
+    max-width: 564px;
+    right: 32px;
+  }
+}
+
+.uiHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.uiVisible {
+  @include subtle-slide-fade-in($duration-fast);
+}
+
+.uiLayer.isFadingOut {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.metaStack {
+  display: grid;
+  gap: 0;
+  grid-auto-rows: auto;
+  margin-bottom: $space-4;
+}
+
+.buttons {
+  height: 100%;
+}
+
+.controlsTop {
+  align-content: start;
+  display: none;
+  gap: 0;
+  grid-template-columns: 1fr auto 1fr;
+
+  @include up(lg) {
+    display: grid;
+  }
+}
+
+.selectButton {
+  justify-content: center;
+  min-width: 188px;
+  place-self: stretch center;
+}
+
+.controlsBottom {
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1fr 2fr;
+  left: -17px;
+  position: relative;
+  width: calc(100% + 32px);
+
+  button {
+    justify-content: center;
+    left: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  @include up(lg) {
+    display: none;
+  }
+}
+
+.homeButtonMobile {
+  text-align: center;
+
+  &:hover,
+  &:focus,
+  &:focus-visible,
+  &:active {
+    backdrop-filter: blur(10px);
+    background:
+      linear-gradient(0deg, rgb(0, 0, 0, 20%) 0%, rgb(0, 0, 0, 20%) 100%),
+      linear-gradient(
+        0deg,
+        rgb(255, 255, 255, 10%) 0%,
+        rgb(255, 255, 255, 10%) 100%
+      ),
+      rgb(255, 255, 255, 10%);
+    border-color: transparent;
+    color: $color-primary-contrast;
+    outline: none;
+    transform: none;
+  }
+}
+
+// Mobile-only swipe hint centered, fade in/out infinitely
+.swipeHint {
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background-color: rgb(0, 0, 0, 20%);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  z-index: 3;
+
+  @include up(lg) {
+    display: none;
+  }
+}
+
+.swipeHint__img {
+  display: block;
+  height: auto;
+  max-width: 320px;
+  opacity: 0.9;
+  user-select: none;
+}
+
+.isHidden {
+  display: none;
+}
+
+@keyframes swipe-fade {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

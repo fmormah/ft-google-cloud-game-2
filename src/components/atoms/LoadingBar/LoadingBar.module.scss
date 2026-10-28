@@ -1,0 +1,40 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.LoadingBar {
+  display: inline-flex;
+  gap: 3px;
+
+  --lb-color: #fff;
+  --lb-duration: 4.6s;
+
+  &__item {
+    animation-duration: var(--lb-duration);
+    animation-iteration-count: infinite;
+    animation-name: lb-pulse;
+    animation-timing-function: ease-in-out;
+    background: var(--lb-color);
+    height: 10px;
+    opacity: 0.2;
+    width: 4px;
+  }
+}
+
+@keyframes lb-pulse {
+  0% {
+    opacity: 1;
+  }
+
+  17.39% {
+    opacity: 0.2;
+  }
+
+  82.61% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

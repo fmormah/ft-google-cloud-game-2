@@ -1,0 +1,167 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/breakpoints" as *;
+@use "@/theme/styles/mixins" as *;
+
+.MuteToggle {
+  align-items: center;
+  background: transparent;
+  display: inline-flex;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  transition: background-color $duration-fast ease;
+  width: 100%;
+
+  --mt-color: #fff;
+  --mt-height: 13px;
+
+  &__bars {
+    align-items: flex-end;
+    display: flex;
+    gap: 3px;
+    height: var(--mt-height);
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity $duration-fast ease;
+  }
+
+  &__bar {
+    background: var(--mt-color);
+    height: 2px;
+    opacity: 1;
+    transform-origin: bottom center;
+    transition: background-color $duration-fast ease;
+    width: 1px;
+  }
+
+  &__label {
+    align-items: center;
+    color: $color-text;
+    display: flex;
+    font-family: $font-family-condensed;
+    font-size: 14px;
+    font-weight: $font-weight-regular;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    letter-spacing: 0;
+    line-height: 120%;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    text-transform: uppercase;
+    top: 0;
+    transition: opacity $duration-fast ease;
+    width: 100%;
+    z-index: 1;
+  }
+
+  &.is-on {
+    .MuteToggle__bar {
+      animation-iteration-count: infinite;
+      animation-name: mt-equalize;
+      animation-timing-function: ease-in-out;
+      height: var(--mt-height);
+      width: 1px;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: $color-primary-contrast;
+
+      .MuteToggle__bar {
+        background: $color-text;
+      }
+
+      .MuteToggle__bars {
+        opacity: 0;
+      }
+
+      .MuteToggle__label {
+        opacity: 1;
+      }
+    }
+  }
+
+  // Touch devices (iPhone Safari): :focus isn't reliably applied on tap,
+  // so provide an :active fallback to reveal the label while pressing.
+  @media (hover: none) and (pointer: coarse) {
+    &:active,
+    &:focus {
+      background: $color-primary-contrast;
+
+      .MuteToggle__bar {
+        background: $color-text;
+      }
+
+      .MuteToggle__bars {
+        opacity: 0;
+      }
+
+      .MuteToggle__label {
+        opacity: 1;
+      }
+    }
+  }
+
+  @include up(lg) {
+    &::before,
+    &::after,
+    .corner-br,
+    .corner-bl {
+      background: $color-primary-contrast;
+      content: "";
+      display: block;
+      height: $size-corner-square;
+      position: absolute;
+      width: $size-corner-square;
+    }
+
+    &::before {
+      left: 0;
+      top: 0;
+    }
+
+    &::after {
+      right: 0;
+      top: 0;
+    }
+
+    .corner-bl {
+      bottom: 0;
+      left: 0;
+    }
+
+    .corner-br {
+      bottom: 0;
+      right: 0;
+    }
+  }
+}
+
+@keyframes mt-equalize {
+  0% {
+    transform: scaleY(0.15);
+  }
+
+  25% {
+    transform: scaleY(0.6);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
+
+  75% {
+    transform: scaleY(0.5);
+  }
+
+  100% {
+    transform: scaleY(0.15);
+  }
+}

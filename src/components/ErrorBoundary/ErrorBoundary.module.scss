@@ -1,0 +1,84 @@
+@use "@/theme/styles/tokens" as *;
+@use "@/theme/styles/mixins" as *;
+
+.ErrorBoundary {
+  align-items: center;
+  background: $color-black;
+  color: $color-background;
+  display: flex;
+  justify-content: center;
+  min-height: var(--viewport-height);
+  padding: $space-4;
+
+  &__content {
+    max-width: 600px;
+    text-align: center;
+  }
+
+  &__title {
+    color: $color-secondary;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: $space-4;
+  }
+
+  &__message {
+    color: $color-text-muted;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin-bottom: $space-6;
+  }
+
+  &__details {
+    margin-bottom: $space-6;
+    text-align: left;
+
+    summary {
+      color: $color-primary;
+      cursor: pointer;
+      font-weight: 500;
+      margin-bottom: $space-2;
+    }
+  }
+
+  &__error {
+    background: rgb(255, 255, 255, 10%);
+    border: 1px solid rgb(255, 255, 255, 20%);
+    border-radius: $radius-md;
+    font-family: monospace;
+    font-size: 0.875rem;
+    overflow-x: auto;
+    padding: $space-4;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    justify-content: center;
+  }
+
+  &__retry,
+  &__refresh {
+    background: transparent;
+    border: 1px solid $color-primary;
+    border-radius: $radius-md;
+    color: $color-primary;
+    cursor: pointer;
+    font-weight: 500;
+    padding: $space-3 $space-5;
+    transition: all 200ms ease;
+
+    &:hover {
+      background: $color-primary;
+      color: $color-black;
+    }
+
+    &:focus {
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+  }
+}
