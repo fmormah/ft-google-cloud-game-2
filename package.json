@@ -20,7 +20,9 @@
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
     "type-check": "tsc --noEmit",
-    "build:pages": "npm run build && node scripts/prepare-pages.mjs"
+    "build:pages": "npm run build && node scripts/prepare-pages.mjs",
+    "test:ci": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@financial-times/cmp-client": "^6.8.1",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.2",
+    "@playwright/test": "1.64.1",
     "@storybook/addon-a11y": "^10.3.0",
     "@storybook/addon-docs": "^10.3.0",
     "@storybook/addon-links": "^10.3.0",

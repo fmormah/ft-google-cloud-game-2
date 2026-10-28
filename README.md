@@ -16,6 +16,14 @@ GITHUB_PAGES=true NEXT_PUBLIC_PORTFOLIO_DEMO=true NEXT_PUBLIC_BASE_PATH=/ft-goog
 
 The supplied audio/video assets and ten restored opening/trophy videos are included in this repository. The archive omitted 140 character scenario video variants (about 1.28 GB); the hosted demo streams those from the project's existing public bucket through `NEXT_PUBLIC_SCENARIO_ASSET_BASE_URL`. All 140 URLs were checked successfully. Keep that bucket available, or mirror it and change this setting. The icon routes are rendered at build time.
 
+## Automated tests
+
+Run `npm run test:ci` for the application unit and integration suite. After producing the Pages build above, run `npx playwright install chromium` and `npm run test:e2e` for Chromium desktop and mobile journeys against `out/` at the production project path.
+
+The browser tests play Stella's complete five-scenario journey, assert each score, check all three highlights and the annual report, restart and verify a clean score/history, and cover a wrong answer followed by rewind and retry. They use real game components and browser video events, with a small checked-in MP4 replacing video responses for deterministic execution. They do not verify the external video bucket's availability, visual fidelity, every character's content, or Safari/Firefox behavior.
+
+GitHub Pages runs both suites before uploading the deployable site. Failed browser runs retain traces, screenshots, and an HTML report as workflow artifacts for seven days.
+
 ## Original project notes
 
 # FT Google Cloud Game 2
