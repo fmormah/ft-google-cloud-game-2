@@ -119,6 +119,7 @@ const SceneRenderer: React.FC<SceneRendererProps> = ({
             type: "persistent",
           }}
           splashProps={{
+            variant: "default",
             headingHtml: "TRANSFORMING<br/>BUSINESS",
             primaryIrisColor: "#ffffff",
             secondaryIrisColor: "#ffffff",
