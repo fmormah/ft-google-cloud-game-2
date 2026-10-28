@@ -1,5 +1,14 @@
 import "@testing-library/jest-dom/vitest";
 
+// Let React subscribe to standard animation events in jsdom, which has CSS
+// animation properties but does not provide the browser's event constructor.
+if (!("AnimationEvent" in window)) {
+  Object.defineProperty(window, "AnimationEvent", {
+    configurable: true,
+    value: class AnimationEvent extends Event {},
+  });
+}
+
 // JSDOM does not implement many media APIs; provide safe no-op stubs
 Object.defineProperty(HTMLMediaElement.prototype, "load", {
   configurable: true,

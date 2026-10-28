@@ -10,6 +10,7 @@ interface SceneTransitionProps {
 }
 
 interface Scene {
+  id: number;
   key: string;
   node: React.ReactNode;
 }
@@ -18,12 +19,15 @@ const SceneTransition: React.FC<SceneTransitionProps> = ({
   activeSceneKey,
   children,
 }) => {
+  // A scene can be re-entered while its old instance is still fading out.
+  // Unique entry IDs prevent React from restoring that instance's local state.
+  const nextSceneId = useRef(1);
   const [scenes, setScenes] = useState<Scene[]>([
-    { key: activeSceneKey, node: children },
+    { id: 0, key: activeSceneKey, node: children },
   ]);
   const [transition, setTransition] = useState<{
     type: string;
-    fromKey: string;
+    fromId: number;
   } | null>(null);
   const isTransitioning = useRef(false);
   const [pendingKey, setPendingKey] = useState<string | null>(null);
@@ -31,7 +35,9 @@ const SceneTransition: React.FC<SceneTransitionProps> = ({
   useEffect(() => {
     const top = scenes[scenes.length - 1];
     if (!top) {
-      setScenes([{ key: activeSceneKey, node: children }]);
+      setScenes([
+        { id: nextSceneId.current++, key: activeSceneKey, node: children },
+      ]);
       return;
     }
     if (activeSceneKey === top.key) {
@@ -42,46 +48,59 @@ const SceneTransition: React.FC<SceneTransitionProps> = ({
       isTransitioning.current = true;
       const randomTransition =
         transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
-      setTransition({ type: randomTransition, fromKey: top.key });
-      setScenes((prev) => [...prev, { key: activeSceneKey, node: children }]);
+      setTransition({ type: randomTransition, fromId: top.id });
+      const nextScene = {
+        id: nextSceneId.current++,
+        key: activeSceneKey,
+        node: children,
+      };
+      setScenes((prev) => [...prev, nextScene]);
     } else {
       setPendingKey(activeSceneKey);
     }
   }, [activeSceneKey, children, scenes]);
 
-  const handleAnimationEnd = useCallback(() => {
-    if (!transition) return;
+  const handleAnimationEnd = useCallback(
+    (event: React.AnimationEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget || !transition) return;
 
-    setScenes((prev) => prev.filter((s) => s.key !== transition.fromKey));
+      setScenes((prev) => prev.filter((s) => s.id !== transition.fromId));
 
-    if (pendingKey) {
-      const nextKey = pendingKey;
-      setPendingKey(null);
-      setScenes((prev) => {
-        const currentTop = prev[prev.length - 1];
-        const randomTransition =
-          transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
-        setTransition({ type: randomTransition, fromKey: currentTop.key });
-        isTransitioning.current = true;
-        return [...prev, { key: nextKey, node: children }];
-      });
-      return;
-    }
+      if (pendingKey) {
+        const nextKey = pendingKey;
+        setPendingKey(null);
+        const nextScene = {
+          id: nextSceneId.current++,
+          key: nextKey,
+          node: children,
+        };
+        setScenes((prev) => {
+          const currentTop = prev[prev.length - 1];
+          const randomTransition =
+            transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
+          setTransition({ type: randomTransition, fromId: currentTop.id });
+          isTransitioning.current = true;
+          return [...prev, nextScene];
+        });
+        return;
+      }
 
-    setTransition(null);
-    isTransitioning.current = false;
-  }, [transition, pendingKey, children]);
+      setTransition(null);
+      isTransitioning.current = false;
+    },
+    [transition, pendingKey, children],
+  );
 
   return (
     <div className={styles.transitionContainer} data-scene={activeSceneKey}>
       {scenes.map((scene, index) => {
         const isTop = index === scenes.length - 1;
         const shouldAnimate = isTop && transition !== null;
-        const isLeaving = transition?.fromKey === scene.key;
+        const isLeaving = transition?.fromId === scene.id;
 
         return (
           <div
-            key={scene.key}
+            key={scene.id}
             className={classNames(styles.sceneWrapper, {
               [styles.sceneTop]: isTop,
               [styles[transition?.type || ""]]: shouldAnimate,

@@ -22,7 +22,7 @@ Run `npm run test:ci` for the application unit and integration suite. After prod
 
 The browser tests play Stella's complete five-scenario journey, assert each score, check all three highlights and the annual report, restart and verify a clean score/history, and cover a wrong answer followed by rewind and retry. They use real game components and browser video events, with a small checked-in MP4 replacing video responses for deterministic execution. They do not verify the external video bucket's availability, visual fidelity, every character's content, or Safari/Firefox behavior.
 
-GitHub Pages runs both suites before uploading the deployable site. Failed browser runs retain traces, screenshots, and an HTML report as workflow artifacts for seven days.
+Scene-transition regressions also cover rapid re-entry and animation events from nested content. GitHub Pages runs both suites before uploading the deployable site; browser tests must pass without flaky retries. Failed browser runs retain traces, screenshots, and an HTML report as workflow artifacts for seven days.
 
 ## Original project notes
 
